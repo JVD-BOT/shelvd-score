@@ -7,11 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-
   <style>
-    /* =====================================================================
-       CUSTOM FONTS
-       ===================================================================== */
+    /* ── Custom font ─────────────────────────────────────────────────────── */
     @font-face {
       font-family: 'Provicali';
       src: url('Provicali.otf') format('opentype');
@@ -20,874 +17,303 @@
       font-display: swap;
     }
 
-    /* =====================================================================
-       RESET & TOKENS
-       ===================================================================== */
+    /* ── Tokens ──────────────────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:           #0C0C0E;
-      --surface:      #161618;
-      --surface-2:    #1E1E21;
-      --text:         #F0EFEB;
-      --muted:        #8A897F;
-      --border:       #2A2A2D;
-      --border-light: #E8E6DC;
-
-      --green:  #4ADE80;
-      --amber:  #FBBF24;
-      --red:    #F87171;
-      --blue:   #60A5FA;   /* retained for fallback / link hover only */
-      --brand:  #F2C388;   /* primary brand accent — warm peach/sand */
-
+      --bg:        #0C0C0E;
+      --surface:   #161618;
+      --surface-2: #1E1E21;
+      --text:      #F0EFEB;
+      --muted:     #8A897F;
+      --border:    #2A2A2D;
+      --border-l:  #E8E6DC;
+      --green:     #4ADE80;
+      --amber:     #FBBF24;
+      --red:       #F87171;
+      --blue:      #60A5FA;
+      --brand:     #F2C388;
       --font-display: 'Provicali', 'Space Grotesk', sans-serif;
-      --font-head: 'Space Grotesk', sans-serif;
-      --font-ui:   'Inter', sans-serif;
-
-      --radius-sm: 8px;
-      --radius-md: 14px;
-      --radius-lg: 20px;
-
-      --transition: 240ms cubic-bezier(0.4, 0, 0.2, 1);
+      --font-head:    'Space Grotesk', sans-serif;
+      --font-ui:      'Inter', sans-serif;
+      --r-sm: 8px; --r-md: 14px; --r-lg: 20px;
+      --ease: 240ms cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-ui); font-size: 15px; line-height: 1.6; min-height: 100vh; }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--font-ui);
-      font-size: 15px;
-      line-height: 1.6;
-      min-height: 100vh;
-    }
+    .container { width: 100%; max-width: 680px; margin: 0 auto; padding: 0 20px; }
 
-    /* =====================================================================
-       LAYOUT UTILITIES
-       ===================================================================== */
-    .container {
-      width: 100%;
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
+    /* ── Hero ────────────────────────────────────────────────────────────── */
+    .hero { padding: 64px 20px 48px; text-align: center; }
+    .wordmark-img { width: 160px; height: auto; display: block; margin: 0 auto 6px; }
+    .tagline { font-size: 13px; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 48px; }
+    .hero-heading { font-family: var(--font-display); font-weight: normal; font-size: clamp(30px, 6.5vw, 48px); line-height: 1.15; color: var(--brand); margin-bottom: 14px; }
+    .hero-sub { font-size: 15px; color: var(--muted); max-width: 420px; margin: 0 auto; line-height: 1.55; }
 
-    /* =====================================================================
-       HERO
-       ===================================================================== */
-    .hero {
-      padding: 72px 20px 56px;
-      text-align: center;
-    }
-
-    .wordmark-img {
-      width: 160px;
-      height: auto;
-      display: block;
-      margin: 0 auto 6px;
-    }
-
-    .tagline {
-      font-family: var(--font-ui);
-      font-size: 13px;
-      color: var(--muted);
-      letter-spacing: 0.02em;
-      margin-bottom: 56px;
-    }
-
-    .hero-heading {
-      font-family: var(--font-display);
-      font-weight: normal;
-      font-size: clamp(32px, 7vw, 52px);
-      letter-spacing: 0;
-      line-height: 1.15;
-      color: var(--brand);
-      margin-bottom: 16px;
-    }
-
-    .hero-sub {
-      font-family: var(--font-ui);
-      font-size: 16px;
-      color: var(--muted);
-      max-width: 400px;
-      margin: 0 auto;
-    }
-
-    /* =====================================================================
-       PROGRESS INDICATOR
-       ===================================================================== */
-    .progress-wrap {
-      margin: 0 auto 36px;
-      max-width: 440px;
-      padding: 0 20px;
-    }
-
-    .progress-steps {
-      display: flex;
-      align-items: center;
-      gap: 0;
-    }
-
-    .progress-step {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      flex: 1;
-      position: relative;
-    }
-
-    /* connector line between steps */
+    /* ── Progress (5 steps) ──────────────────────────────────────────────── */
+    .progress-wrap { margin: 0 auto 32px; max-width: 500px; padding: 0 20px; }
+    .progress-steps { display: flex; align-items: center; }
+    .progress-step { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1; position: relative; }
     .progress-step:not(:last-child)::after {
-      content: '';
-      position: absolute;
-      top: 13px;
-      left: calc(50% + 13px);
-      right: calc(-50% + 13px);
-      height: 1px;
-      background: var(--border);
-      transition: background var(--transition);
-      z-index: 0;
+      content: ''; position: absolute; top: 13px;
+      left: calc(50% + 13px); right: calc(-50% + 13px);
+      height: 1px; background: var(--border); z-index: 0;
+      transition: background var(--ease);
     }
-
-    .progress-step.completed:not(:last-child)::after {
-      background: var(--brand);
-    }
-
+    .progress-step.completed:not(:last-child)::after { background: var(--brand); }
     .step-dot {
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      background: var(--surface-2);
-      border: 1.5px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-head);
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--muted);
-      transition: all var(--transition);
-      position: relative;
-      z-index: 1;
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--surface-2); border: 1.5px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-head); font-size: 11px; font-weight: 600;
+      color: var(--muted); transition: all var(--ease); position: relative; z-index: 1;
     }
+    .progress-step.active   .step-dot { background: var(--brand); border-color: var(--brand); color: #0C0C0E; box-shadow: 0 0 0 4px rgba(242,195,136,.18); }
+    .progress-step.completed .step-dot { background: var(--brand); border-color: var(--brand); color: #0C0C0E; }
+    .step-label { font-size: 9px; font-weight: 500; color: var(--muted); text-align: center; letter-spacing: .04em; text-transform: uppercase; line-height: 1.2; transition: color var(--ease); }
+    .progress-step.active   .step-label,
+    .progress-step.completed .step-label { color: var(--text); }
 
-    .progress-step.active .step-dot {
-      background: var(--brand);
-      border-color: var(--brand);
-      color: #0C0C0E;
-      box-shadow: 0 0 0 4px rgba(242, 195, 136, 0.18);
-    }
+    /* ── Form card ───────────────────────────────────────────────────────── */
+    .form-wrap { padding: 0 0 80px; }
+    .form-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 36px; }
+    @media (max-width: 520px) { .form-card { padding: 24px 18px; } }
 
-    .progress-step.completed .step-dot {
-      background: var(--brand);
-      border-color: var(--brand);
-      color: #0C0C0E;
-    }
+    .form-step { display: none; animation: stepIn 300ms cubic-bezier(.4,0,.2,1) forwards; }
+    .form-step.active { display: block; }
+    @keyframes stepIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
 
-    .step-label {
-      font-size: 10px;
-      font-weight: 500;
-      color: var(--muted);
-      text-align: center;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      line-height: 1.2;
-      transition: color var(--transition);
-    }
+    .step-heading { font-family: var(--font-head); font-weight: 600; font-size: 20px; letter-spacing: -.3px; color: var(--text); margin-bottom: 4px; }
+    .step-desc { font-size: 13px; color: var(--muted); margin-bottom: 26px; line-height: 1.5; }
 
-    .progress-step.active .step-label,
-    .progress-step.completed .step-label {
-      color: var(--text);
-    }
+    /* ── Fields ──────────────────────────────────────────────────────────── */
+    .field { margin-bottom: 22px; }
+    .field label { display: block; font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 10px; line-height: 1.4; }
 
-    /* =====================================================================
-       FORM CARD
-       ===================================================================== */
-    .form-wrap {
-      padding: 0 0 80px;
-    }
-
-    .form-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 36px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    @media (max-width: 520px) {
-      .form-card { padding: 24px 20px; }
-    }
-
-    .form-step {
-      display: none;
-      animation: stepIn 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
-
-    .form-step.active {
-      display: block;
-    }
-
-    @keyframes stepIn {
-      from { opacity: 0; transform: translateY(12px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .step-heading {
-      font-family: var(--font-head);
-      font-weight: 600;
-      font-size: 20px;
-      letter-spacing: -0.3px;
-      color: var(--text);
-      margin-bottom: 4px;
-    }
-
-    .step-desc {
-      font-size: 13px;
-      color: var(--muted);
-      margin-bottom: 28px;
-    }
-
-    /* =====================================================================
-       FORM FIELDS
-       ===================================================================== */
-    .field {
-      margin-bottom: 22px;
-    }
-
-    .field label {
-      display: block;
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text);
-      margin-bottom: 10px;
-      line-height: 1.4;
-    }
-
-    /* Number input */
-    .field input[type="number"] {
-      width: 120px;
-      background: var(--surface-2);
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius-sm);
-      color: var(--text);
-      font-family: var(--font-head);
-      font-size: 22px;
-      font-weight: 600;
-      padding: 10px 16px;
-      text-align: center;
-      transition: border-color var(--transition);
-      -moz-appearance: textfield;
-      appearance: textfield;
-    }
-
-    .field input[type="number"]::-webkit-inner-spin-button,
-    .field input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
-
-    .field input[type="number"]:focus {
-      outline: none;
-      border-color: var(--brand);
-    }
-
-    /* Number stepper */
-    .number-stepper {
-      display: flex;
-      align-items: center;
-      gap: 0;
-      width: fit-content;
-    }
-
-    .stepper-btn {
-      width: 40px;
-      height: 46px;
-      background: var(--surface-2);
-      border: 1.5px solid var(--border);
-      color: var(--text);
-      font-size: 20px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all var(--transition);
-      user-select: none;
-    }
-
-    .stepper-btn:first-child { border-radius: var(--radius-sm) 0 0 var(--radius-sm); border-right: none; }
-    .stepper-btn:last-child  { border-radius: 0 var(--radius-sm) var(--radius-sm) 0; border-left: none; }
-
+    .number-stepper { display: flex; align-items: center; width: fit-content; }
+    .stepper-btn { width: 40px; height: 46px; background: var(--surface-2); border: 1.5px solid var(--border); color: var(--text); font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all var(--ease); user-select: none; }
+    .stepper-btn:first-child { border-radius: var(--r-sm) 0 0 var(--r-sm); border-right: none; }
+    .stepper-btn:last-child  { border-radius: 0 var(--r-sm) var(--r-sm) 0; border-left: none; }
     .stepper-btn:hover { background: var(--border); }
-
-    .stepper-input {
-      width: 70px;
-      height: 46px;
-      background: var(--surface-2);
-      border: 1.5px solid var(--border);
-      color: var(--text);
-      font-family: var(--font-head);
-      font-size: 22px;
-      font-weight: 600;
-      text-align: center;
-      -moz-appearance: textfield;
-      appearance: textfield;
-    }
-
+    .stepper-input { width: 70px; height: 46px; background: var(--surface-2); border: 1.5px solid var(--border); color: var(--text); font-family: var(--font-head); font-size: 22px; font-weight: 600; text-align: center; -moz-appearance: textfield; appearance: textfield; }
     .stepper-input:focus { outline: none; border-color: var(--brand); }
-    .stepper-input::-webkit-inner-spin-button,
-    .stepper-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+    .stepper-input::-webkit-inner-spin-button, .stepper-input::-webkit-outer-spin-button { -webkit-appearance: none; }
 
-    /* Yes/No toggle */
-    .toggle-group {
-      display: flex;
-      gap: 8px;
-    }
-
-    .toggle-btn {
-      padding: 9px 20px;
-      border-radius: var(--radius-sm);
-      border: 1.5px solid var(--border);
-      background: var(--surface-2);
-      color: var(--muted);
-      font-family: var(--font-ui);
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all var(--transition);
-      user-select: none;
-    }
-
+    .toggle-group { display: flex; gap: 8px; flex-wrap: wrap; }
+    .toggle-btn { padding: 9px 20px; border-radius: var(--r-sm); border: 1.5px solid var(--border); background: var(--surface-2); color: var(--muted); font-family: var(--font-ui); font-size: 13px; font-weight: 500; cursor: pointer; transition: all var(--ease); user-select: none; }
     .toggle-btn:hover { border-color: var(--brand); color: var(--text); }
+    .toggle-btn.selected { border-color: var(--brand); background: rgba(242,195,136,.1); color: var(--brand); }
 
-    .toggle-btn.selected {
-      border-color: var(--brand);
-      background: rgba(242, 195, 136, 0.1);
-      color: var(--brand);
-    }
-
-    /* Dropdown select */
-    .field select {
-      width: 100%;
-      max-width: 400px;
-      background: var(--surface-2);
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius-sm);
-      color: var(--text);
-      font-family: var(--font-ui);
-      font-size: 14px;
-      padding: 11px 16px;
-      appearance: none;
-      -webkit-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A897F' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 14px center;
-      cursor: pointer;
-      transition: border-color var(--transition);
-    }
-
+    .field select { width: 100%; max-width: 420px; background: var(--surface-2); border: 1.5px solid var(--border); border-radius: var(--r-sm); color: var(--text); font-family: var(--font-ui); font-size: 14px; padding: 11px 40px 11px 14px; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A897F' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; cursor: pointer; transition: border-color var(--ease); }
     .field select:focus { outline: none; border-color: var(--brand); }
-
     .field select option { background: #1E1E21; }
 
-    /* Slider */
-    .slider-wrap {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+    .slider-wrap { display: flex; flex-direction: column; gap: 10px; }
+    .slider-row { display: flex; align-items: center; gap: 16px; }
+    .slider-row input[type="range"] { flex: 1; }
+    .slider-labels { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); padding: 0 2px; }
+    input[type="range"] { width: 100%; max-width: 400px; height: 4px; accent-color: var(--brand); cursor: pointer; background: var(--border); border-radius: 2px; outline: none; appearance: none; -webkit-appearance: none; }
+    input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--brand); border: 2px solid var(--bg); box-shadow: 0 0 0 2px var(--brand); cursor: pointer; transition: box-shadow var(--ease); }
+    input[type="range"]::-webkit-slider-thumb:hover { box-shadow: 0 0 0 4px rgba(242,195,136,.25); }
+    input[type="range"]::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: var(--brand); border: 2px solid var(--bg); cursor: pointer; }
+    .slider-value { font-family: var(--font-head); font-size: 15px; font-weight: 600; color: var(--brand); }
 
-    .slider-labels {
-      display: flex;
-      justify-content: space-between;
-      font-size: 11px;
-      color: var(--muted);
-      padding: 0 2px;
-    }
-
-    input[type="range"] {
-      width: 100%;
-      max-width: 400px;
-      height: 4px;
-      accent-color: var(--brand);
-      cursor: pointer;
-      background: var(--border);
-      border-radius: 2px;
-      outline: none;
-      appearance: none;
-      -webkit-appearance: none;
-    }
-
-    input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: var(--brand);
-      border: 2px solid var(--bg);
-      box-shadow: 0 0 0 2px var(--brand);
-      cursor: pointer;
-      transition: box-shadow var(--transition);
-    }
-
-    input[type="range"]::-webkit-slider-thumb:hover {
-      box-shadow: 0 0 0 4px rgba(242, 195, 136, 0.25);
-    }
-
-    input[type="range"]::-moz-range-thumb {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: var(--brand);
-      border: 2px solid var(--bg);
-      cursor: pointer;
-    }
-
-    .slider-value {
-      font-family: var(--font-head);
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--brand);
-    }
-
-    /* Divider between fields */
-    .field-divider {
-      height: 1px;
-      background: var(--border);
-      margin: 4px 0 22px;
-    }
-
-    /* =====================================================================
-       FORM NAVIGATION BUTTONS
-       ===================================================================== */
-    .form-nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 32px;
-      padding-top: 24px;
-      border-top: 1px solid var(--border);
-      gap: 12px;
-    }
-
-    .btn {
-      font-family: var(--font-ui);
-      font-size: 14px;
-      font-weight: 600;
-      padding: 12px 24px;
-      border-radius: var(--radius-sm);
-      border: none;
-      cursor: pointer;
-      transition: all var(--transition);
-      letter-spacing: 0.01em;
-    }
-
-    .btn-primary {
-      background: var(--brand);
-      color: #0C0C0E;
-    }
-
+    /* ── Nav buttons ─────────────────────────────────────────────────────── */
+    .form-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); gap: 12px; }
+    .btn { font-family: var(--font-ui); font-size: 14px; font-weight: 600; padding: 12px 24px; border-radius: var(--r-sm); border: none; cursor: pointer; transition: all var(--ease); letter-spacing: .01em; }
+    .btn-primary { background: var(--brand); color: #0C0C0E; }
     .btn-primary:hover { background: #f7d5a8; }
-
-    .btn-ghost {
-      background: transparent;
-      color: var(--muted);
-      border: 1.5px solid var(--border);
-    }
-
+    .btn-ghost { background: transparent; color: var(--muted); border: 1.5px solid var(--border); }
     .btn-ghost:hover { color: var(--text); border-color: var(--muted); }
+    .btn:disabled { opacity: .4; cursor: not-allowed; }
 
-    .btn:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-
-    /* =====================================================================
-       VALIDATION ERROR
-       ===================================================================== */
-    .error-msg {
-      display: none;
-      font-size: 12px;
-      color: var(--red);
-      margin-top: 6px;
-    }
-
-    .error-msg.visible { display: block; }
-
-    .step-error {
-      background: rgba(248, 113, 113, 0.08);
-      border: 1px solid rgba(248, 113, 113, 0.2);
-      border-radius: var(--radius-sm);
-      padding: 10px 14px;
-      font-size: 13px;
-      color: var(--red);
-      margin-bottom: 20px;
-      display: none;
-    }
-
+    /* ── Errors ──────────────────────────────────────────────────────────── */
+    .step-error { background: rgba(248,113,113,.08); border: 1px solid rgba(248,113,113,.2); border-radius: var(--r-sm); padding: 10px 14px; font-size: 13px; color: var(--red); margin-bottom: 20px; display: none; }
     .step-error.visible { display: block; }
 
-    /* =====================================================================
-       RESULTS PAGE
-       ===================================================================== */
-    .results-wrap {
-      display: none;
-      padding: 0 0 80px;
-      animation: resultsFadeIn 500ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
-
+    /* ── Results wrap ────────────────────────────────────────────────────── */
+    .results-wrap { display: none; padding: 0 0 80px; }
     .results-wrap.visible { display: block; }
 
-    @keyframes resultsFadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+    /* ── Reveal animation system ─────────────────────────────────────────── */
+    .reveal-section { opacity: 0; transform: translateY(18px); transition: opacity 450ms ease, transform 450ms ease; pointer-events: none; margin-bottom: 20px; }
+    .reveal-section.shown { opacity: 1; transform: translateY(0); pointer-events: auto; }
 
-    /* Score badge */
-    .score-badge-wrap {
-      text-align: center;
-      margin-bottom: 40px;
-    }
+    /* ── Score badge ─────────────────────────────────────────────────────── */
+    .score-badge-wrap { text-align: center; padding-bottom: 8px; }
+    .score-badge { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 148px; height: 148px; border-radius: 20%; background: var(--surface); border: 2px solid var(--green); margin-bottom: 18px; }
+    .score-number { font-family: var(--font-head); font-weight: 700; font-size: 54px; line-height: 1; color: var(--green); letter-spacing: -2px; }
+    .score-denom { font-family: var(--font-head); font-size: 14px; color: var(--muted); margin-top: 2px; }
+    .score-tier { font-family: var(--font-display); font-weight: normal; font-size: 26px; color: var(--text); margin-bottom: 6px; }
+    .score-tier-sub { font-size: 14px; color: var(--muted); max-width: 520px; margin: 0 auto; line-height: 1.5; }
 
-    .score-badge {
-      display: inline-flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 140px;
-      height: 140px;
-      border-radius: 20%;
-      background: var(--surface);
-      border: 2px solid var(--green); /* overridden by JS */
-      transition: border-color 600ms ease;
-      margin-bottom: 16px;
-      position: relative;
-    }
+    /* ── Benchmark ───────────────────────────────────────────────────────── */
+    .benchmark-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 24px 28px; }
+    .benchmark-header { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
+    .benchmark-avg-label { font-size: 14px; color: var(--muted); margin-bottom: 14px; }
+    .benchmark-avg-label strong { color: var(--text); font-weight: 500; }
+    .benchmark-bar-outer { position: relative; margin-bottom: 10px; }
+    .benchmark-track { height: 6px; background: var(--surface-2); border-radius: 3px; position: relative; }
+    .benchmark-pin { position: absolute; top: 50%; transform: translate(-50%, -50%); width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--bg); z-index: 2; transition: left 600ms cubic-bezier(.4,0,.2,1); }
+    .benchmark-pin.user-pin { z-index: 3; }
+    .benchmark-pin-label { position: absolute; top: 14px; transform: translateX(-50%); font-size: 10px; font-weight: 600; font-family: var(--font-head); white-space: nowrap; }
+    .benchmark-verdict { font-size: 14px; color: var(--muted); margin-top: 14px; line-height: 1.5; }
+    .benchmark-verdict strong { font-weight: 600; }
+    .benchmark-context { font-size: 13px; color: var(--muted); margin-top: 8px; border-top: 1px solid var(--border); padding-top: 12px; font-style: italic; }
 
-    .score-number {
-      font-family: var(--font-head);
-      font-weight: 700;
-      font-size: 52px;
-      line-height: 1;
-      color: var(--green); /* overridden by JS */
-      letter-spacing: -2px;
-    }
+    /* ── Email gate ──────────────────────────────────────────────────────── */
+    .email-gate-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 28px 32px; text-align: center; }
+    @media (max-width: 520px) { .email-gate-card { padding: 22px 18px; } }
+    .email-gate-heading { font-family: var(--font-head); font-weight: 600; font-size: 18px; color: var(--text); margin-bottom: 6px; }
+    .email-gate-sub { font-size: 14px; color: var(--muted); margin-bottom: 22px; line-height: 1.5; }
+    .email-gate-row { display: flex; gap: 10px; max-width: 420px; margin: 0 auto 14px; }
+    .email-gate-row input[type="email"] { flex: 1; background: var(--surface-2); border: 1.5px solid var(--border); border-radius: var(--r-sm); color: var(--text); font-family: var(--font-ui); font-size: 14px; padding: 11px 14px; transition: border-color var(--ease); }
+    .email-gate-row input[type="email"]:focus { outline: none; border-color: var(--brand); }
+    .email-gate-row input[type="email"]::placeholder { color: var(--muted); }
+    .email-skip { background: none; border: none; color: var(--muted); font-family: var(--font-ui); font-size: 13px; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; transition: color var(--ease); }
+    .email-skip:hover { color: var(--text); }
+    .email-error { font-size: 12px; color: var(--red); margin-top: 6px; display: none; }
+    .email-error.visible { display: block; }
 
-    .score-denom {
-      font-family: var(--font-head);
-      font-size: 14px;
-      color: var(--muted);
-      margin-top: 2px;
-    }
-
-    .score-tier {
-      font-family: var(--font-head);
-      font-weight: 600;
-      font-size: 22px;
-      letter-spacing: -0.5px;
-      color: var(--text);
-    }
-
-    .score-tier-sub {
-      font-size: 14px;
-      color: var(--muted);
-      margin-top: 4px;
-    }
-
-    /* Pillar bars */
-    .pillars-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 28px 32px;
-      margin-bottom: 20px;
-    }
-
-    @media (max-width: 520px) {
-      .pillars-card { padding: 20px 18px; }
-    }
-
-    .pillars-heading {
-      font-family: var(--font-head);
-      font-weight: 600;
-      font-size: 13px;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 22px;
-    }
-
-    .pillar-row {
-      margin-bottom: 18px;
-    }
-
+    /* ── Pillars ─────────────────────────────────────────────────────────── */
+    .pillars-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 28px 32px; }
+    @media (max-width: 520px) { .pillars-card { padding: 20px 18px; } }
+    .pillars-heading { font-family: var(--font-head); font-weight: 600; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 22px; }
+    .pillar-row { margin-bottom: 16px; opacity: 0; transform: translateX(-8px); transition: opacity 350ms ease, transform 350ms ease; }
+    .pillar-row.shown { opacity: 1; transform: translateX(0); }
     .pillar-row:last-child { margin-bottom: 0; }
+    .pillar-meta { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+    .pillar-name { font-size: 14px; font-weight: 500; color: var(--text); }
+    .pillar-score-label { font-family: var(--font-head); font-size: 13px; font-weight: 600; color: var(--muted); }
+    .pillar-bar-track { height: 6px; background: var(--surface-2); border-radius: 3px; overflow: hidden; }
+    .pillar-bar-fill { height: 100%; border-radius: 3px; width: 0%; transition: width 700ms cubic-bezier(.4,0,.2,1); }
 
-    .pillar-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 8px;
-    }
+    /* ── Wins ────────────────────────────────────────────────────────────── */
+    .wins-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 24px 28px; }
+    .wins-heading { font-family: var(--font-head); font-weight: 600; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
+    .wins-list { display: flex; flex-direction: column; gap: 8px; }
+    .win-item { font-size: 13px; color: var(--muted); line-height: 1.4; }
+    .feedback-empty { font-size: 13px; color: var(--muted); font-style: italic; }
 
-    .pillar-name {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text);
-    }
+    /* ── Recommendations ─────────────────────────────────────────────────── */
+    .recs-heading { font-family: var(--font-head); font-weight: 600; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+    .rec-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 18px 20px; margin-bottom: 10px; }
+    .rec-card:last-child { margin-bottom: 0; }
+    .rec-top { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 8px; }
+    .rec-emoji { font-size: 20px; line-height: 1; flex-shrink: 0; margin-top: 1px; }
+    .rec-issue { font-family: var(--font-head); font-weight: 600; font-size: 14px; color: var(--text); }
+    .rec-action { font-size: 13px; color: var(--muted); line-height: 1.55; margin-bottom: 8px; padding-left: 32px; }
+    .rec-why { font-size: 12px; color: var(--muted); line-height: 1.45; padding-left: 32px; opacity: .75; border-top: 1px solid var(--border); padding-top: 8px; margin-top: 4px; }
+    .recs-empty { font-size: 13px; color: var(--muted); font-style: italic; padding: 8px 0; }
 
-    .pillar-score {
-      font-family: var(--font-head);
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--muted);
-    }
+    /* ── Shelf-worthy badge ──────────────────────────────────────────────── */
+    .shelf-badge-card { background: linear-gradient(135deg, rgba(242,195,136,.06) 0%, rgba(242,195,136,.02) 100%); border: 1px solid rgba(242,195,136,.2); border-radius: var(--r-lg); padding: 28px 32px; }
+    .shelf-badge-heading { font-family: var(--font-head); font-weight: 600; font-size: 17px; color: var(--text); margin-bottom: 4px; }
+    .shelf-badge-sub { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+    .shelf-badge-preview { display: inline-flex; align-items: center; gap: 10px; background: var(--surface-2); border: 1.5px solid rgba(242,195,136,.3); border-radius: 10px; padding: 10px 18px; margin-bottom: 18px; }
+    .shelf-badge-preview-score { font-family: var(--font-head); font-weight: 700; font-size: 22px; color: var(--brand); }
+    .shelf-badge-preview-label { font-size: 11px; color: var(--muted); line-height: 1.3; }
+    .shelf-badge-preview-img { width: 28px; height: auto; opacity: .85; }
+    .embed-copy-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .embed-code-display { flex: 1; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 9px 12px; font-family: monospace; font-size: 11px; color: var(--muted); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; min-width: 0; }
+    .btn-copy-embed { background: transparent; border: 1.5px solid var(--border); color: var(--text); font-size: 13px; white-space: nowrap; }
+    .btn-copy-embed:hover { border-color: var(--brand); color: var(--brand); }
+    .embed-copied { font-size: 12px; color: var(--green); display: none; }
+    .embed-copied.visible { display: inline; }
 
-    .pillar-bar-track {
-      height: 6px;
-      background: var(--surface-2);
-      border-radius: 3px;
-      overflow: hidden;
-    }
-
-    .pillar-bar-fill {
-      height: 100%;
-      border-radius: 3px;
-      width: 0%; /* animated via JS */
-      transition: width 800ms cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    /* Wins & Fixes */
-    .feedback-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 20px;
-    }
-
-    @media (max-width: 520px) {
-      .feedback-grid { grid-template-columns: 1fr; }
-    }
-
-    .feedback-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 22px;
-    }
-
-    .feedback-card-head {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 14px;
-    }
-
-    .feedback-icon {
-      width: 24px;
-      height: 24px;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-    }
-
-    .feedback-icon.wins { background: rgba(74, 222, 128, 0.12); }
-    .feedback-icon.fixes { background: rgba(248, 113, 113, 0.12); }
-
-    .feedback-card-title {
-      font-family: var(--font-head);
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    .feedback-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .feedback-list li {
-      font-size: 13px;
-      color: var(--muted);
-      padding-left: 14px;
-      position: relative;
-      line-height: 1.4;
-    }
-
-    .feedback-list li::before {
-      content: '·';
-      position: absolute;
-      left: 0;
-      color: var(--border-light);
-    }
-
-    .feedback-empty {
-      font-size: 13px;
-      color: var(--muted);
-      font-style: italic;
-    }
-
-    /* CTA buttons */
-    .results-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--text);
-      border: 1.5px solid var(--border);
-      font-size: 14px;
-    }
-
+    /* ── Results actions ─────────────────────────────────────────────────── */
+    .results-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .btn-share { background: var(--surface); color: var(--brand); border: 1.5px solid rgba(242,195,136,.3); font-size: 14px; }
+    .btn-share:hover { border-color: var(--brand); background: rgba(242,195,136,.06); }
+    .btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--border); font-size: 14px; }
     .btn-outline:hover { border-color: var(--muted); }
-
-    .btn-share {
-      background: var(--surface);
-      color: var(--brand);
-      border: 1.5px solid rgba(242, 195, 136, 0.3);
-      font-size: 14px;
-    }
-
-    .btn-share:hover { border-color: var(--brand); background: rgba(242, 195, 136, 0.06); }
-
-    .copy-feedback {
-      font-size: 12px;
-      color: var(--green);
-      display: none;
-      align-items: center;
-      gap: 4px;
-    }
-
+    .btn-download { background: var(--surface-2); color: var(--text); border: 1.5px solid var(--border); font-size: 14px; }
+    .btn-download:hover { border-color: var(--muted); }
+    .copy-feedback { font-size: 12px; color: var(--green); display: none; align-items: center; gap: 4px; }
     .copy-feedback.visible { display: flex; }
 
-    /* =====================================================================
-       FOOTER
-       ===================================================================== */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 32px 20px;
-      text-align: center;
-    }
-
-    .footer-text {
-      font-size: 13px;
-      color: var(--muted);
-      margin-bottom: 10px;
-    }
-
-    .footer-link {
-      font-size: 13px;
-      color: var(--brand);
-      text-decoration: none;
-      border-bottom: 1px solid rgba(242, 195, 136, 0.3);
-      transition: border-color var(--transition);
-    }
-
+    /* ── Footer ──────────────────────────────────────────────────────────── */
+    footer { border-top: 1px solid var(--border); padding: 32px 20px; text-align: center; }
+    .footer-text { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+    .footer-link { font-size: 13px; color: var(--brand); text-decoration: none; border-bottom: 1px solid rgba(242,195,136,.3); transition: border-color var(--ease); }
     .footer-link:hover { border-color: var(--brand); }
 
-    /* =====================================================================
-       MISC
-       ===================================================================== */
+    /* ── Misc ────────────────────────────────────────────────────────────── */
     .hidden { display: none !important; }
-
-    /* Score counter animation */
-    @keyframes countUp {
-      from { opacity: 0; transform: scale(0.8); }
-      to   { opacity: 1; transform: scale(1); }
-    }
-
-    .score-animate {
-      animation: countUp 400ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    }
-
-    /* Subtle shimmer on score badge load */
-    @keyframes badgePop {
-      0%   { transform: scale(0.85); opacity: 0; }
-      70%  { transform: scale(1.04); }
-      100% { transform: scale(1); opacity: 1; }
-    }
-
-    .badge-pop {
-      animation: badgePop 500ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    }
-
-    /* Tooltip on slider */
-    .slider-row {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .slider-row input[type="range"] { flex: 1; }
+    #fullResults { display: none; }
   </style>
 </head>
-
 <body>
 
-  <!-- ====================================================================
-       HERO
-       ==================================================================== -->
+  <!-- HERO -->
   <header>
     <div class="hero">
       <img class="wordmark-img" src="NEWLOGO.png" alt="Shelvd" />
       <div class="tagline">what great looks like, and why it works</div>
-
       <h1 class="hero-heading">Get your Shelvd Score</h1>
-      <p class="hero-sub">Answer a few questions about your Amazon listing. Get an instant design-quality score.</p>
+      <p class="hero-sub">Your listing gets one shot to convert. Find out if it's shelf-worthy — or getting shelved.</p>
     </div>
   </header>
 
-  <!-- ====================================================================
-       PROGRESS BAR
-       ==================================================================== -->
+  <!-- PROGRESS (5 steps) -->
   <div class="progress-wrap" id="progressWrap">
     <div class="progress-steps">
-      <div class="progress-step active" id="prog-0">
-        <div class="step-dot">1</div>
-        <div class="step-label">Visual</div>
-      </div>
-      <div class="progress-step" id="prog-1">
-        <div class="step-dot">2</div>
-        <div class="step-label">Copy</div>
-      </div>
-      <div class="progress-step" id="prog-2">
-        <div class="step-dot">3</div>
-        <div class="step-label">SEO</div>
-      </div>
-      <div class="progress-step" id="prog-3">
-        <div class="step-dot">4</div>
-        <div class="step-label">Technical</div>
-      </div>
+      <div class="progress-step active" id="prog-0"><div class="step-dot">1</div><div class="step-label">Category</div></div>
+      <div class="progress-step"        id="prog-1"><div class="step-dot">2</div><div class="step-label">Visual</div></div>
+      <div class="progress-step"        id="prog-2"><div class="step-dot">3</div><div class="step-label">Copy</div></div>
+      <div class="progress-step"        id="prog-3"><div class="step-dot">4</div><div class="step-label">SEO</div></div>
+      <div class="progress-step"        id="prog-4"><div class="step-dot">5</div><div class="step-label">Technical</div></div>
     </div>
   </div>
 
-  <!-- ====================================================================
-       FORM
-       ==================================================================== -->
   <main>
+    <!-- FORM -->
     <div class="form-wrap container" id="formWrap">
       <div class="form-card">
 
-        <!-- STEP 1: Visual Quality -->
+        <!-- STEP 0: Category -->
         <div class="form-step active" id="step-0">
-          <h2 class="step-heading">Visual Quality</h2>
-          <p class="step-desc">Images and creative assets that showcase your product.</p>
-          <div class="step-error" id="error-0">Please answer all questions before continuing.</div>
+          <h2 class="step-heading">What are you selling?</h2>
+          <p class="step-desc">We'll benchmark your score against real listings in your category.</p>
+          <div class="step-error" id="error-0">Please select a category before continuing.</div>
+          <div class="field">
+            <label for="category">What category is your product in?</label>
+            <select id="category">
+              <option value="">— Select your category —</option>
+              <option value="supplements">Supplements &amp; Vitamins</option>
+              <option value="beauty">Beauty &amp; Skincare</option>
+              <option value="health">Health &amp; Household</option>
+              <option value="kitchen">Kitchen &amp; Home</option>
+              <option value="baby">Baby Products</option>
+              <option value="pet">Pet Supplies</option>
+              <option value="electronics">Electronics &amp; Accessories</option>
+              <option value="sports">Sports &amp; Fitness</option>
+              <option value="outdoor">Outdoor &amp; Garden</option>
+              <option value="food">Food &amp; Grocery</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-nav">
+            <span></span>
+            <button class="btn btn-primary" onclick="nextStep(0)">Next: Visual Quality →</button>
+          </div>
+        </div>
 
+        <!-- STEP 1: Visual Quality -->
+        <div class="form-step" id="step-1">
+          <h2 class="step-heading">Visual Quality</h2>
+          <p class="step-desc">First impressions are visual. Let's see what yours looks like.</p>
+          <div class="step-error" id="error-1">Please answer all questions before continuing.</div>
           <div class="field">
             <label for="imageCount">How many images does your listing have?</label>
             <div class="number-stepper">
-              <button class="stepper-btn" type="button" onclick="stepperChange('imageCount', -1)">-</button>
+              <button class="stepper-btn" type="button" onclick="stepperChange('imageCount',-1)">-</button>
               <input class="stepper-input" type="number" id="imageCount" min="0" max="9" value="" placeholder="0" />
-              <button class="stepper-btn" type="button" onclick="stepperChange('imageCount', 1)">+</button>
+              <button class="stepper-btn" type="button" onclick="stepperChange('imageCount',1)">+</button>
             </div>
           </div>
-
           <div class="field">
             <label>Do you have lifestyle images showing the product in use?</label>
             <div class="toggle-group" data-field="lifestyle">
@@ -895,7 +321,6 @@
               <button class="toggle-btn" data-value="no"  onclick="selectToggle(this)">No</button>
             </div>
           </div>
-
           <div class="field">
             <label>Do you have infographic images with text overlays?</label>
             <div class="toggle-group" data-field="infographic">
@@ -903,7 +328,6 @@
               <button class="toggle-btn" data-value="no"  onclick="selectToggle(this)">No</button>
             </div>
           </div>
-
           <div class="field">
             <label>Do you have A+ Content (Enhanced Brand Content)?</label>
             <div class="toggle-group" data-field="aplusVisual">
@@ -911,7 +335,6 @@
               <button class="toggle-btn" data-value="no"  onclick="selectToggle(this)">No</button>
             </div>
           </div>
-
           <div class="field">
             <label>Do you have at least one product video?</label>
             <div class="toggle-group" data-field="video">
@@ -919,19 +342,17 @@
               <button class="toggle-btn" data-value="no"  onclick="selectToggle(this)">No</button>
             </div>
           </div>
-
           <div class="form-nav">
-            <span></span>
-            <button class="btn btn-primary" onclick="nextStep(0)">Next: Copywriting →</button>
+            <button class="btn btn-ghost" onclick="prevStep(1)">← Back</button>
+            <button class="btn btn-primary" onclick="nextStep(1)">Next: Copywriting →</button>
           </div>
         </div>
 
         <!-- STEP 2: Copywriting -->
-        <div class="form-step" id="step-1">
+        <div class="form-step" id="step-2">
           <h2 class="step-heading">Copywriting</h2>
-          <p class="step-desc">How well your words sell the product.</p>
-          <div class="step-error" id="error-1">Please answer all questions before continuing.</div>
-
+          <p class="step-desc">Words sell. Let's check if yours are earning their spot.</p>
+          <div class="step-error" id="error-2">Please answer all questions before continuing.</div>
           <div class="field">
             <label for="titleLength">How long is your product title?</label>
             <select id="titleLength">
@@ -942,16 +363,14 @@
               <option value="over200">Over 200 characters</option>
             </select>
           </div>
-
           <div class="field">
             <label for="bulletCount">How many bullet points do you have?</label>
             <div class="number-stepper">
-              <button class="stepper-btn" type="button" onclick="stepperChange('bulletCount', -1)">-</button>
+              <button class="stepper-btn" type="button" onclick="stepperChange('bulletCount',-1)">-</button>
               <input class="stepper-input" type="number" id="bulletCount" min="0" max="5" value="" placeholder="0" />
-              <button class="stepper-btn" type="button" onclick="stepperChange('bulletCount', 1)">+</button>
+              <button class="stepper-btn" type="button" onclick="stepperChange('bulletCount',1)">+</button>
             </div>
           </div>
-
           <div class="field">
             <label for="bulletLength">How long are your bullet points on average?</label>
             <select id="bulletLength">
@@ -961,7 +380,6 @@
               <option value="long">Long — over 250 chars</option>
             </select>
           </div>
-
           <div class="field">
             <label>Do you have a Brand Story section?</label>
             <div class="toggle-group" data-field="brandStoryCopy">
@@ -969,7 +387,6 @@
               <button class="toggle-btn" data-value="no"  onclick="selectToggle(this)">No</button>
             </div>
           </div>
-
           <div class="field">
             <label>Do you have a product description?</label>
             <div class="toggle-group" data-field="description">
@@ -977,19 +394,17 @@
               <button class="toggle-btn" data-value="no"  onclick="selectToggle(this)">No</button>
             </div>
           </div>
-
           <div class="form-nav">
-            <button class="btn btn-ghost" onclick="prevStep(1)">← Back</button>
-            <button class="btn btn-primary" onclick="nextStep(1)">Next: SEO →</button>
+            <button class="btn btn-ghost" onclick="prevStep(2)">← Back</button>
+            <button class="btn btn-primary" onclick="nextStep(2)">Next: SEO →</button>
           </div>
         </div>
 
         <!-- STEP 3: SEO -->
-        <div class="form-step" id="step-2">
+        <div class="form-step" id="step-3">
           <h2 class="step-heading">SEO</h2>
-          <p class="step-desc">How discoverable your listing is in search.</p>
-          <div class="step-error" id="error-2">Please answer all questions before continuing.</div>
-
+          <p class="step-desc">Invisible to shoppers, critical for search. The backend matters.</p>
+          <div class="step-error" id="error-3">Please answer all questions before continuing.</div>
           <div class="field">
             <label>Does your title include your brand name?</label>
             <div class="toggle-group" data-field="brandInTitle">
@@ -997,7 +412,6 @@
               <button class="toggle-btn" data-value="no"  onclick="selectToggle(this)">No</button>
             </div>
           </div>
-
           <div class="field">
             <label>Does your title include your main search keyword?</label>
             <div class="toggle-group" data-field="keywordInTitle">
@@ -1005,31 +419,25 @@
               <button class="toggle-btn" data-value="no"  onclick="selectToggle(this)">No</button>
             </div>
           </div>
-
           <div class="field">
             <label for="keywordBullets">Do your bullet points naturally include relevant keywords?</label>
             <div class="slider-wrap">
               <div class="slider-row">
                 <input type="range" id="keywordBullets" min="1" max="5" value="3"
-                  oninput="document.getElementById('keywordBulletsVal').textContent = this.value" />
-                <span class="slider-value" id="keywordBulletsVal">3</span>
+                  oninput="document.getElementById('kbVal').textContent=this.value" />
+                <span class="slider-value" id="kbVal">3</span>
               </div>
-              <div class="slider-labels">
-                <span>Not at all</span>
-                <span>Thoroughly</span>
-              </div>
+              <div class="slider-labels"><span>Not at all</span><span>Thoroughly</span></div>
             </div>
           </div>
-
           <div class="field">
             <label>Have you filled in backend search terms?</label>
             <div class="toggle-group" data-field="backendTerms">
-              <button class="toggle-btn" data-value="yes"   onclick="selectToggle(this)">Yes</button>
-              <button class="toggle-btn" data-value="no"    onclick="selectToggle(this)">No</button>
+              <button class="toggle-btn" data-value="yes"    onclick="selectToggle(this)">Yes</button>
+              <button class="toggle-btn" data-value="no"     onclick="selectToggle(this)">No</button>
               <button class="toggle-btn" data-value="unsure" onclick="selectToggle(this)">Unsure</button>
             </div>
           </div>
-
           <div class="field">
             <label>Have you completed all category-specific attributes?</label>
             <div class="toggle-group" data-field="categoryAttrs">
@@ -1037,19 +445,17 @@
               <button class="toggle-btn" data-value="no"  onclick="selectToggle(this)">No</button>
             </div>
           </div>
-
           <div class="form-nav">
-            <button class="btn btn-ghost" onclick="prevStep(2)">← Back</button>
-            <button class="btn btn-primary" onclick="nextStep(2)">Next: Technical →</button>
+            <button class="btn btn-ghost" onclick="prevStep(3)">← Back</button>
+            <button class="btn btn-primary" onclick="nextStep(3)">Next: Technical →</button>
           </div>
         </div>
 
         <!-- STEP 4: Technical Compliance -->
-        <div class="form-step" id="step-3">
+        <div class="form-step" id="step-4">
           <h2 class="step-heading">Technical Compliance</h2>
-          <p class="step-desc">Whether your listing meets Amazon's technical standards.</p>
-          <div class="step-error" id="error-3">Please answer all questions before continuing.</div>
-
+          <p class="step-desc">The checklist Amazon cares about — even if shoppers don't.</p>
+          <div class="step-error" id="error-4">Please answer all questions before continuing.</div>
           <div class="field">
             <label>Is your main image on a pure white background?</label>
             <div class="toggle-group" data-field="whiteBg">
@@ -1057,7 +463,6 @@
               <button class="toggle-btn" data-value="no"  onclick="selectToggle(this)">No</button>
             </div>
           </div>
-
           <div class="field">
             <label>Are all images at least 1000×1000 pixels?</label>
             <div class="toggle-group" data-field="imageRes">
@@ -1065,7 +470,6 @@
               <button class="toggle-btn" data-value="no"  onclick="selectToggle(this)">No</button>
             </div>
           </div>
-
           <div class="field">
             <label>Do you have A+ / Enhanced Brand Content?</label>
             <div class="toggle-group" data-field="aplusTech">
@@ -1073,7 +477,6 @@
               <button class="toggle-btn" data-value="no"  onclick="selectToggle(this)">No</button>
             </div>
           </div>
-
           <div class="field">
             <label>Do you have a Brand Story module?</label>
             <div class="toggle-group" data-field="brandStoryTech">
@@ -1081,7 +484,6 @@
               <button class="toggle-btn" data-value="no"  onclick="selectToggle(this)">No</button>
             </div>
           </div>
-
           <div class="field">
             <label>Does your listing have linked product variations?</label>
             <div class="toggle-group" data-field="variations">
@@ -1090,7 +492,6 @@
               <button class="toggle-btn" data-value="na"  onclick="selectToggle(this)">Not applicable</button>
             </div>
           </div>
-
           <div class="field">
             <label for="reviewCount">How many reviews does your product have?</label>
             <select id="reviewCount">
@@ -1101,161 +502,219 @@
               <option value="1000plus">1,000+ reviews</option>
             </select>
           </div>
-
           <div class="form-nav">
-            <button class="btn btn-ghost" onclick="prevStep(3)">← Back</button>
+            <button class="btn btn-ghost" onclick="prevStep(4)">← Back</button>
             <button class="btn btn-primary" onclick="submitForm()">Get my score →</button>
           </div>
         </div>
 
       </div><!-- /form-card -->
-    </div><!-- /form-wrap -->
+    </div><!-- /formWrap -->
 
-    <!-- ==================================================================
-         RESULTS
-         ================================================================== -->
+    <!-- RESULTS -->
     <div class="results-wrap container" id="resultsWrap">
 
-      <!-- Score badge -->
-      <div class="score-badge-wrap">
-        <div class="score-badge" id="scoreBadge">
-          <span class="score-number" id="scoreNumber">—</span>
-          <span class="score-denom">/100</span>
-        </div>
-        <div class="score-tier" id="scoreTier">—</div>
-        <div class="score-tier-sub" id="scoreTierSub">—</div>
-      </div>
-
-      <!-- Pillar bars -->
-      <div class="pillars-card">
-        <div class="pillars-heading">Score breakdown</div>
-
-        <div class="pillar-row">
-          <div class="pillar-meta">
-            <span class="pillar-name">Visual Quality</span>
-            <span class="pillar-score" id="pillar-visual-score">—/25</span>
+      <!-- 1. Score badge -->
+      <div class="reveal-section" id="sectionBadge">
+        <div class="score-badge-wrap">
+          <div class="score-badge" id="scoreBadge">
+            <span class="score-number" id="scoreNumber">—</span>
+            <span class="score-denom">/100</span>
           </div>
-          <div class="pillar-bar-track">
-            <div class="pillar-bar-fill" id="pillar-visual-bar"></div>
-          </div>
-        </div>
-
-        <div class="pillar-row">
-          <div class="pillar-meta">
-            <span class="pillar-name">Copywriting</span>
-            <span class="pillar-score" id="pillar-copy-score">—/25</span>
-          </div>
-          <div class="pillar-bar-track">
-            <div class="pillar-bar-fill" id="pillar-copy-bar"></div>
-          </div>
-        </div>
-
-        <div class="pillar-row">
-          <div class="pillar-meta">
-            <span class="pillar-name">SEO</span>
-            <span class="pillar-score" id="pillar-seo-score">—/25</span>
-          </div>
-          <div class="pillar-bar-track">
-            <div class="pillar-bar-fill" id="pillar-seo-bar"></div>
-          </div>
-        </div>
-
-        <div class="pillar-row">
-          <div class="pillar-meta">
-            <span class="pillar-name">Technical Compliance</span>
-            <span class="pillar-score" id="pillar-tech-score">—/25</span>
-          </div>
-          <div class="pillar-bar-track">
-            <div class="pillar-bar-fill" id="pillar-tech-bar"></div>
-          </div>
+          <div class="score-tier" id="scoreTier">—</div>
+          <div class="score-tier-sub" id="scoreTierSub">—</div>
         </div>
       </div>
 
-      <!-- Wins & Quick Fixes -->
-      <div class="feedback-grid">
-        <div class="feedback-card">
-          <div class="feedback-card-head">
-            <div class="feedback-icon wins">✓</div>
-            <div class="feedback-card-title">Your biggest wins</div>
+      <!-- 2. Benchmark -->
+      <div class="reveal-section" id="sectionBenchmark">
+        <div class="benchmark-card">
+          <div class="benchmark-header">Category Benchmark</div>
+          <div class="benchmark-avg-label" id="benchAvgLabel">—</div>
+          <div class="benchmark-bar-outer" style="padding-bottom: 26px;">
+            <div class="benchmark-track" id="benchTrack">
+              <div class="benchmark-pin avg-pin" id="benchPinAvg" style="background:#8A897F; left:0%;">
+                <div class="benchmark-pin-label" style="color:#8A897F;" id="benchPinAvgLabel">Avg</div>
+              </div>
+              <div class="benchmark-pin user-pin" id="benchPinUser" style="background:#4ADE80; left:0%;">
+                <div class="benchmark-pin-label" style="color:#4ADE80;" id="benchPinUserLabel">You</div>
+              </div>
+            </div>
           </div>
-          <ul class="feedback-list" id="winsList"></ul>
-        </div>
-
-        <div class="feedback-card">
-          <div class="feedback-card-head">
-            <div class="feedback-icon fixes">→</div>
-            <div class="feedback-card-title">Quick fixes</div>
-          </div>
-          <ul class="feedback-list" id="fixesList"></ul>
+          <div class="benchmark-verdict" id="benchVerdict">—</div>
+          <div class="benchmark-context" id="benchContext">—</div>
         </div>
       </div>
 
-      <!-- Actions -->
-      <div class="results-actions">
-        <button class="btn btn-share" id="shareBtn" onclick="shareScore()">
-          Share your score
-        </button>
-        <span class="copy-feedback" id="copyFeedback">✓ Copied to clipboard</span>
-        <button class="btn btn-outline" onclick="resetForm()">Score another listing</button>
+      <!-- 3. Email gate -->
+      <div class="reveal-section" id="sectionEmailGate">
+        <div class="email-gate-card" id="emailGateCard">
+          <div class="email-gate-heading">Want the full breakdown?</div>
+          <div class="email-gate-sub" id="emailGateSub">Get your pillar-by-pillar analysis and specific recommendations for your listing.</div>
+          <div class="email-gate-row">
+            <input type="email" id="emailInput" placeholder="you@yourbrand.com" />
+            <button class="btn btn-primary" onclick="submitEmail()">Send my full report</button>
+          </div>
+          <div class="email-error" id="emailError">Please enter a valid email address.</div>
+          <button class="email-skip" onclick="skipEmail()">Skip — show me now</button>
+        </div>
       </div>
 
-    </div><!-- /results-wrap -->
+      <!-- 4–7. Full results (revealed after gate) -->
+      <div id="fullResults">
+
+        <!-- 4. Pillar bars -->
+        <div class="reveal-section" id="sectionPillars">
+          <div class="pillars-card">
+            <div class="pillars-heading">Score breakdown</div>
+            <div class="pillar-row" id="pillarRow0">
+              <div class="pillar-meta"><span class="pillar-name">Visual Quality</span><span class="pillar-score-label" id="pillar-visual-score">—/25</span></div>
+              <div class="pillar-bar-track"><div class="pillar-bar-fill" id="pillar-visual-bar"></div></div>
+            </div>
+            <div class="pillar-row" id="pillarRow1">
+              <div class="pillar-meta"><span class="pillar-name">Copywriting</span><span class="pillar-score-label" id="pillar-copy-score">—/25</span></div>
+              <div class="pillar-bar-track"><div class="pillar-bar-fill" id="pillar-copy-bar"></div></div>
+            </div>
+            <div class="pillar-row" id="pillarRow2">
+              <div class="pillar-meta"><span class="pillar-name">SEO</span><span class="pillar-score-label" id="pillar-seo-score">—/25</span></div>
+              <div class="pillar-bar-track"><div class="pillar-bar-fill" id="pillar-seo-bar"></div></div>
+            </div>
+            <div class="pillar-row" id="pillarRow3">
+              <div class="pillar-meta"><span class="pillar-name">Technical Compliance</span><span class="pillar-score-label" id="pillar-tech-score">—/25</span></div>
+              <div class="pillar-bar-track"><div class="pillar-bar-fill" id="pillar-tech-bar"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Wins -->
+        <div class="reveal-section" id="sectionWins">
+          <div class="wins-card">
+            <div class="wins-heading">Your biggest wins</div>
+            <div class="wins-list" id="winsList"></div>
+          </div>
+        </div>
+
+        <!-- 6. Recommendations -->
+        <div class="reveal-section" id="sectionRecs">
+          <div class="recs-heading">Your Recommendations</div>
+          <div id="recsList"></div>
+        </div>
+
+        <!-- 7. Shelf-worthy badge (shown only if score >= 80) -->
+        <div class="reveal-section hidden" id="sectionShelfBadge">
+          <div class="shelf-badge-card">
+            <div class="shelf-badge-heading">🏅 You earned the Shelf-worthy badge</div>
+            <div class="shelf-badge-sub">Your listing scored in the top tier. Here's your embeddable badge:</div>
+            <div class="shelf-badge-preview">
+              <img class="shelf-badge-preview-img" src="NEWLOGO.png" alt="Shelvd" />
+              <div>
+                <div class="shelf-badge-preview-score" id="badgeScorePreview">—</div>
+                <div class="shelf-badge-preview-label">Shelvd Score</div>
+              </div>
+            </div>
+            <br/>
+            <div class="embed-copy-row">
+              <div class="embed-code-display" id="embedCodeDisplay"></div>
+              <button class="btn btn-copy-embed" onclick="copyEmbedCode()">Copy embed code</button>
+              <span class="embed-copied" id="embedCopied">✓ Copied</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8. Actions -->
+        <div class="reveal-section" id="sectionActions">
+          <div class="results-actions">
+            <button class="btn btn-share" onclick="shareScore()">Share your score</button>
+            <button class="btn btn-download" onclick="downloadScoreCard()">Download score card</button>
+            <span class="copy-feedback" id="copyFeedback">✓ Copied to clipboard</span>
+            <button class="btn btn-outline" onclick="resetForm()">Score another listing</button>
+          </div>
+        </div>
+
+      </div><!-- /fullResults -->
+    </div><!-- /resultsWrap -->
   </main>
 
-  <!-- ====================================================================
-       FOOTER
-       ==================================================================== -->
+  <!-- FOOTER -->
   <footer>
     <p class="footer-text">Shelvd — What great looks like, and why it works.</p>
-    <a class="footer-link" href="https://shelvd.beehiiv.com" target="_blank" rel="noopener">
-      Subscribe to the weekly teardown →
-    </a>
+    <a class="footer-link" href="https://shelvd.beehiiv.com" target="_blank" rel="noopener">Subscribe to the weekly teardown →</a>
   </footer>
 
-  <!-- ====================================================================
-       JAVASCRIPT
-       ==================================================================== -->
   <script>
-    /* ------------------------------------------------------------------
+    /* ════════════════════════════════════════════════════════════════════════
        STATE
-       ------------------------------------------------------------------ */
-
-    // Current wizard step (0–3)
+    ════════════════════════════════════════════════════════════════════════ */
     let currentStep = 0;
+    const answers  = {};
+    let lastScore   = null;
+    let lastResults = null;
 
-    // All answers keyed by field name
-    const answers = {};
+    /* ════════════════════════════════════════════════════════════════════════
+       CATEGORY BENCHMARKS
+    ════════════════════════════════════════════════════════════════════════ */
+    const BENCHMARKS = {
+      supplements:  { label: 'Supplements & Vitamins',    avg: 62 },
+      beauty:       { label: 'Beauty & Skincare',         avg: 58 },
+      health:       { label: 'Health & Household',        avg: 49 },
+      kitchen:      { label: 'Kitchen & Home',            avg: 45 },
+      baby:         { label: 'Baby Products',             avg: 51 },
+      pet:          { label: 'Pet Supplies',              avg: 43 },
+      electronics:  { label: 'Electronics & Accessories', avg: 47 },
+      sports:       { label: 'Sports & Fitness',          avg: 50 },
+      outdoor:      { label: 'Outdoor & Garden',          avg: 42 },
+      food:         { label: 'Food & Grocery',            avg: 44 },
+      other:        { label: 'Other',                     avg: 48 },
+    };
 
-    // Cached score results for sharing
-    let lastScore = null;
+    /* ════════════════════════════════════════════════════════════════════════
+       VALIDATION — which fields are required per step (0-indexed)
+    ════════════════════════════════════════════════════════════════════════ */
+    const STEP_FIELDS = [
+      ['category'],                                                               // 0
+      ['imageCount','lifestyle','infographic','aplusVisual','video'],             // 1
+      ['titleLength','bulletCount','bulletLength','brandStoryCopy','description'],// 2
+      ['brandInTitle','keywordInTitle','backendTerms','categoryAttrs'],           // 3
+      ['whiteBg','imageRes','aplusTech','brandStoryTech','variations','reviewCount'], // 4
+    ];
 
-    /* ------------------------------------------------------------------
-       STEPPER INPUTS
-       ------------------------------------------------------------------ */
+    /* ── Collect all DOM inputs, then validate required fields for step ── */
+    function collectAndValidate(stepIndex) {
+      const cat = document.getElementById('category');
+      if (cat && cat.value) answers.category = cat.value;
 
-    /**
-     * Increment or decrement a stepper input, clamped to its min/max.
-     * @param {string} id   - element id of the <input>
-     * @param {number} delta - +1 or -1
-     */
-    function stepperChange(id, delta) {
-      const input = document.getElementById(id);
-      const min = parseInt(input.min, 10);
-      const max = parseInt(input.max, 10);
-      const current = input.value === '' ? (delta > 0 ? min - 1 : max + 1) : parseInt(input.value, 10);
-      const next = Math.min(max, Math.max(min, current + delta));
-      input.value = next;
-      // Store in answers immediately
-      answers[id] = next;
+      ['imageCount','bulletCount'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && el.value !== '') answers[id] = parseInt(el.value, 10);
+      });
+
+      ['titleLength','bulletLength','reviewCount'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && el.value) answers[id] = el.value;
+      });
+
+      const slider = document.getElementById('keywordBullets');
+      if (slider) answers.keywordBullets = parseInt(slider.value, 10);
+
+      for (const field of STEP_FIELDS[stepIndex]) {
+        const v = answers[field];
+        if (v === undefined || v === null || v === '') return false;
+      }
+      return true;
     }
 
-    /* ------------------------------------------------------------------
-       TOGGLE BUTTONS
-       ------------------------------------------------------------------ */
+    /* ════════════════════════════════════════════════════════════════════════
+       FORM CONTROLS
+    ════════════════════════════════════════════════════════════════════════ */
+    function stepperChange(id, delta) {
+      const el  = document.getElementById(id);
+      const min = parseInt(el.min, 10);
+      const max = parseInt(el.max, 10);
+      const cur = el.value === '' ? (delta > 0 ? min - 1 : max + 1) : parseInt(el.value, 10);
+      el.value  = Math.min(max, Math.max(min, cur + delta));
+      answers[id] = parseInt(el.value, 10);
+    }
 
-    /**
-     * Select a toggle button within its group; deselect siblings.
-     */
     function selectToggle(btn) {
       const group = btn.closest('.toggle-group');
       group.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('selected'));
@@ -1263,480 +722,656 @@
       answers[group.dataset.field] = btn.dataset.value;
     }
 
-    /* ------------------------------------------------------------------
-       VALIDATION
-       Each step has a list of required fields — we check that each has
-       a value before allowing the user to proceed.
-       ------------------------------------------------------------------ */
-
-    const STEP_FIELDS = [
-      // Step 0: Visual Quality
-      ['imageCount', 'lifestyle', 'infographic', 'aplusVisual', 'video'],
-      // Step 1: Copywriting
-      ['titleLength', 'bulletCount', 'bulletLength', 'brandStoryCopy', 'description'],
-      // Step 2: SEO  (keywordBullets is a slider — always has a value)
-      ['brandInTitle', 'keywordInTitle', 'backendTerms', 'categoryAttrs'],
-      // Step 3: Technical Compliance  (reviewCount is a <select>)
-      ['whiteBg', 'imageRes', 'aplusTech', 'brandStoryTech', 'variations', 'reviewCount'],
-    ];
-
-    /**
-     * Collect answers from DOM inputs for the given step, then validate.
-     * Returns true if all required fields have values.
-     */
-    function collectAndValidate(stepIndex) {
-      // Collect <input type="number"> / stepper values
-      ['imageCount', 'bulletCount'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el && el.value !== '') answers[id] = parseInt(el.value, 10);
-      });
-
-      // Collect <select> values
-      ['titleLength', 'bulletLength', 'reviewCount'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el && el.value) answers[id] = el.value;
-      });
-
-      // Slider — always present
-      const slider = document.getElementById('keywordBullets');
-      if (slider) answers['keywordBullets'] = parseInt(slider.value, 10);
-
-      // Check required fields for this step
-      const required = STEP_FIELDS[stepIndex];
-      for (const field of required) {
-        const val = answers[field];
-        if (val === undefined || val === null || val === '') return false;
-      }
-      return true;
-    }
-
-    /* ------------------------------------------------------------------
+    /* ════════════════════════════════════════════════════════════════════════
        NAVIGATION
-       ------------------------------------------------------------------ */
-
-    function nextStep(fromIndex) {
-      const valid = collectAndValidate(fromIndex);
-      const errorEl = document.getElementById(`error-${fromIndex}`);
-
-      if (!valid) {
-        errorEl.classList.add('visible');
+    ════════════════════════════════════════════════════════════════════════ */
+    function nextStep(from) {
+      if (!collectAndValidate(from)) {
+        document.getElementById(`error-${from}`).classList.add('visible');
         return;
       }
-      errorEl.classList.remove('visible');
-
-      // Hide current step
-      document.getElementById(`step-${fromIndex}`).classList.remove('active');
-      // Update progress
-      document.getElementById(`prog-${fromIndex}`).classList.remove('active');
-      document.getElementById(`prog-${fromIndex}`).classList.add('completed');
-      // Mark check in dot
-      document.getElementById(`prog-${fromIndex}`).querySelector('.step-dot').textContent = '✓';
-
-      currentStep = fromIndex + 1;
-
-      // Show next step
+      document.getElementById(`error-${from}`).classList.remove('visible');
+      document.getElementById(`step-${from}`).classList.remove('active');
+      const prog = document.getElementById(`prog-${from}`);
+      prog.classList.remove('active');
+      prog.classList.add('completed');
+      prog.querySelector('.step-dot').textContent = '✓';
+      currentStep = from + 1;
       document.getElementById(`step-${currentStep}`).classList.add('active');
       document.getElementById(`prog-${currentStep}`).classList.add('active');
-
-      // Scroll to top of form
       document.getElementById('formWrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    function prevStep(fromIndex) {
-      document.getElementById(`step-${fromIndex}`).classList.remove('active');
-      document.getElementById(`prog-${fromIndex}`).classList.remove('active');
-
-      currentStep = fromIndex - 1;
-
+    function prevStep(from) {
+      document.getElementById(`step-${from}`).classList.remove('active');
+      document.getElementById(`prog-${from}`).classList.remove('active');
+      currentStep = from - 1;
       document.getElementById(`step-${currentStep}`).classList.add('active');
-      document.getElementById(`prog-${currentStep}`).classList.remove('completed');
-      document.getElementById(`prog-${currentStep}`).classList.add('active');
-      // Restore number in dot
-      document.getElementById(`prog-${currentStep}`).querySelector('.step-dot').textContent = currentStep + 1;
-
+      const prev = document.getElementById(`prog-${currentStep}`);
+      prev.classList.remove('completed');
+      prev.classList.add('active');
+      prev.querySelector('.step-dot').textContent = currentStep + 1;
       document.getElementById('formWrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    /* ------------------------------------------------------------------
+    /* ════════════════════════════════════════════════════════════════════════
        SCORING ENGINE
-       ------------------------------------------------------------------ */
-
-    /**
-     * Visual Quality — max 25
-     */
+    ════════════════════════════════════════════════════════════════════════ */
     function scoreVisual(a) {
-      let score = 0;
-      const items = []; // { label, points, maxPoints, isWin, isFix }
-
-      // Images (max 8)
-      const imgs = a.imageCount;
-      let imgPts = 0;
-      if (imgs >= 1 && imgs <= 3) imgPts = 2;
-      else if (imgs >= 4 && imgs <= 6) imgPts = 5;
-      else if (imgs >= 7) imgPts = 8;
-      score += imgPts;
-      items.push({ label: 'Image gallery (7–9 images)', points: imgPts, max: 8 });
-
-      // Lifestyle (max 4)
-      const lifePts = a.lifestyle === 'yes' ? 4 : 0;
-      score += lifePts;
-      items.push({ label: 'Lifestyle images', points: lifePts, max: 4 });
-
-      // Infographic (max 4)
-      const infoPts = a.infographic === 'yes' ? 4 : 0;
-      score += infoPts;
-      items.push({ label: 'Infographic images', points: infoPts, max: 4 });
-
-      // A+ content (max 5)
-      const aplusPts = a.aplusVisual === 'yes' ? 5 : 0;
-      score += aplusPts;
-      items.push({ label: 'A+ Content', points: aplusPts, max: 5 });
-
-      // Video (max 4)
-      const vidPts = a.video === 'yes' ? 4 : 0;
-      score += vidPts;
-      items.push({ label: 'Product video', points: vidPts, max: 4 });
-
-      return { score, items };
+      let s = 0, items = [];
+      const imgPts = a.imageCount >= 7 ? 8 : a.imageCount >= 4 ? 5 : a.imageCount >= 1 ? 2 : 0;
+      s += imgPts; items.push({ key:'imageCount', label:'Image gallery (7–9 images)', pts:imgPts, max:8 });
+      const lPts = a.lifestyle==='yes'?4:0;   s+=lPts; items.push({key:'lifestyle',   label:'Lifestyle images',  pts:lPts, max:4});
+      const iPts = a.infographic==='yes'?4:0; s+=iPts; items.push({key:'infographic', label:'Infographic images',pts:iPts, max:4});
+      const aPts = a.aplusVisual==='yes'?5:0; s+=aPts; items.push({key:'aplusVisual', label:'A+ Content',        pts:aPts, max:5});
+      const vPts = a.video==='yes'?4:0;       s+=vPts; items.push({key:'video',       label:'Product video',     pts:vPts, max:4});
+      return { score:s, items };
     }
 
-    /**
-     * Copywriting — max 25
-     */
     function scoreCopy(a) {
-      let score = 0;
-      const items = [];
-
-      // Title length (max 5)
-      const titleMap = { under80: 2, '80to150': 5, '150to200': 4, over200: 1 };
-      const titlePts = titleMap[a.titleLength] || 0;
-      score += titlePts;
-      items.push({ label: 'Title length (80–150 chars ideal)', points: titlePts, max: 5 });
-
-      // Bullet count (max 6)
-      const bc = a.bulletCount;
-      let bcPts = 0;
-      if (bc >= 1 && bc <= 3) bcPts = 2;
-      else if (bc === 4) bcPts = 4;
-      else if (bc >= 5) bcPts = 6;
-      score += bcPts;
-      items.push({ label: 'Bullet point count (5 recommended)', points: bcPts, max: 6 });
-
-      // Bullet length (max 5)
-      const blMap = { short: 2, medium: 5, long: 3 };
-      const blPts = blMap[a.bulletLength] || 0;
-      score += blPts;
-      items.push({ label: 'Bullet length (medium is ideal)', points: blPts, max: 5 });
-
-      // Brand Story (max 4)
-      const bsPts = a.brandStoryCopy === 'yes' ? 4 : 0;
-      score += bsPts;
-      items.push({ label: 'Brand Story section', points: bsPts, max: 4 });
-
-      // Description (max 4)
-      const descPts = a.description === 'yes' ? 4 : 0;
-      score += descPts;
-      items.push({ label: 'Product description', points: descPts, max: 4 });
-
-      return { score, items };
+      let s = 0, items = [];
+      const tMap = {under80:2,'80to150':5,'150to200':4,over200:1};
+      const tPts = tMap[a.titleLength]||0;  s+=tPts; items.push({key:'titleLength',   label:'Title length',         pts:tPts, max:5});
+      const bc   = a.bulletCount;
+      const bcPts= bc>=5?6:bc===4?4:bc>=1?2:0; s+=bcPts; items.push({key:'bulletCount',label:'Bullet count',         pts:bcPts,max:6});
+      const blMap= {short:2,medium:5,long:3};
+      const blPts= blMap[a.bulletLength]||0; s+=blPts; items.push({key:'bulletLength', label:'Bullet length',        pts:blPts,max:5});
+      const bsPts= a.brandStoryCopy==='yes'?4:0; s+=bsPts; items.push({key:'brandStoryCopy',label:'Brand Story section',pts:bsPts,max:4});
+      const dPts = a.description==='yes'?4:0; s+=dPts; items.push({key:'description',  label:'Product description',  pts:dPts, max:4});
+      return { score:s, items };
     }
 
-    /**
-     * SEO — max 25
-     */
     function scoreSEO(a) {
-      let score = 0;
-      const items = [];
-
-      // Brand in title (max 5)
-      const bitPts = a.brandInTitle === 'yes' ? 5 : 0;
-      score += bitPts;
-      items.push({ label: 'Brand name in title', points: bitPts, max: 5 });
-
-      // Keyword in title (max 5)
-      const kitPts = a.keywordInTitle === 'yes' ? 5 : 0;
-      score += kitPts;
-      items.push({ label: 'Main keyword in title', points: kitPts, max: 5 });
-
-      // Keyword bullets slider (max 5)
-      const kbPts = parseInt(a.keywordBullets, 10) || 3;
-      score += kbPts;
-      items.push({ label: 'Keywords in bullet points', points: kbPts, max: 5 });
-
-      // Backend search terms (max 5)
-      const btMap = { yes: 5, no: 0, unsure: 2 };
-      const btPts = btMap[a.backendTerms] || 0;
-      score += btPts;
-      items.push({ label: 'Backend search terms filled', points: btPts, max: 5 });
-
-      // Category attributes (max 5)
-      const caPts = a.categoryAttrs === 'yes' ? 5 : 0;
-      score += caPts;
-      items.push({ label: 'Category attributes completed', points: caPts, max: 5 });
-
-      return { score, items };
+      let s = 0, items = [];
+      const biPts = a.brandInTitle==='yes'?5:0;   s+=biPts; items.push({key:'brandInTitle',  label:'Brand name in title',     pts:biPts,max:5});
+      const kiPts = a.keywordInTitle==='yes'?5:0; s+=kiPts; items.push({key:'keywordInTitle',label:'Main keyword in title',   pts:kiPts,max:5});
+      const kbPts = parseInt(a.keywordBullets,10)||3; s+=kbPts; items.push({key:'keywordBullets',label:'Keywords in bullets',pts:kbPts,max:5});
+      const btMap = {yes:5,no:0,unsure:2};
+      const btPts = btMap[a.backendTerms]||0; s+=btPts; items.push({key:'backendTerms',  label:'Backend search terms',    pts:btPts,max:5});
+      const caPts = a.categoryAttrs==='yes'?5:0; s+=caPts; items.push({key:'categoryAttrs',label:'Category attributes',   pts:caPts,max:5});
+      return { score:s, items };
     }
 
-    /**
-     * Technical Compliance — max 25
-     */
     function scoreTech(a) {
-      let score = 0;
-      const items = [];
-
-      // White background (max 5)
-      const wbPts = a.whiteBg === 'yes' ? 5 : 0;
-      score += wbPts;
-      items.push({ label: 'Main image on white background', points: wbPts, max: 5 });
-
-      // Image resolution (max 5)
-      const irPts = a.imageRes === 'yes' ? 5 : 0;
-      score += irPts;
-      items.push({ label: 'Images at 1000×1000px or larger', points: irPts, max: 5 });
-
-      // A+ content (max 5)
-      const apPts = a.aplusTech === 'yes' ? 5 : 0;
-      score += apPts;
-      items.push({ label: 'A+ / Enhanced Brand Content', points: apPts, max: 5 });
-
-      // Brand Story (max 5)
-      const bstPts = a.brandStoryTech === 'yes' ? 5 : 0;
-      score += bstPts;
-      items.push({ label: 'Brand Story module', points: bstPts, max: 5 });
-
-      // Variations (max 3)
-      const varMap = { yes: 3, no: 0, na: 3 };
-      const varPts = varMap[a.variations] || 0;
-      score += varPts;
-      items.push({ label: 'Product variations linked', points: varPts, max: 3 });
-
-      // Reviews (max 2)
-      const revMap = { '0to10': 0, '11to100': 1, '101to1000': 2, '1000plus': 2 };
-      const revPts = revMap[a.reviewCount] || 0;
-      score += revPts;
-      items.push({ label: 'Review count (101+ reviews)', points: revPts, max: 2 });
-
-      return { score, items };
+      let s = 0, items = [];
+      const wPts  = a.whiteBg==='yes'?5:0;         s+=wPts;  items.push({key:'whiteBg',       label:'White background hero',     pts:wPts, max:5});
+      const rPts  = a.imageRes==='yes'?5:0;         s+=rPts;  items.push({key:'imageRes',       label:'Images 1000px+',            pts:rPts, max:5});
+      const apPts = a.aplusTech==='yes'?5:0;        s+=apPts; items.push({key:'aplusTech',      label:'A+ / Enhanced Brand Content',pts:apPts,max:5});
+      const bsPts = a.brandStoryTech==='yes'?5:0;   s+=bsPts; items.push({key:'brandStoryTech', label:'Brand Story module',        pts:bsPts,max:5});
+      const varMap= {yes:3,no:0,na:3};
+      const vPts  = varMap[a.variations]||0;        s+=vPts;  items.push({key:'variations',     label:'Product variations',        pts:vPts, max:3});
+      const revMap= {'0to10':0,'11to100':1,'101to1000':2,'1000plus':2};
+      const revPts= revMap[a.reviewCount]||0;       s+=revPts;items.push({key:'reviewCount',    label:'Review count',              pts:revPts,max:2});
+      return { score:s, items };
     }
 
-    /* ------------------------------------------------------------------
+    /* ════════════════════════════════════════════════════════════════════════
        HELPERS
-       ------------------------------------------------------------------ */
-
-    /** Return the CSS variable for a given score within a range. */
-    function scoreColor(score, max) {
-      const pct = (score / max) * 100;
-      if (pct >= 80) return 'var(--green)';
-      if (pct >= 50) return 'var(--amber)';
-      return 'var(--red)';
+    ════════════════════════════════════════════════════════════════════════ */
+    function scoreHex(score, max) {
+      const p = (score/max)*100;
+      return p>=80 ? '#4ADE80' : p>=50 ? '#FBBF24' : '#F87171';
+    }
+    function pillarHex(score) {
+      return score>=20 ? '#4ADE80' : score>=13 ? '#FBBF24' : '#F87171';
     }
 
-    /** Return a hex string for a pillar score out of 25 (for pillar bars). */
-    function pillarColor(score) {
-      if (score >= 20) return 'var(--green)';
-      if (score >= 13) return 'var(--amber)';
-      return 'var(--red)';
+    /* ════════════════════════════════════════════════════════════════════════
+       WINS BUILDER — specific trophy messages
+    ════════════════════════════════════════════════════════════════════════ */
+    function buildWins(a) {
+      const w = [];
+      if (a.imageCount >= 7)           w.push("🏆 Full image gallery — you're maximizing every visual slot.");
+      if (a.lifestyle === 'yes')        w.push("🏆 Lifestyle photography — you're selling the experience, not just the product.");
+      if (a.infographic === 'yes')      w.push("🏆 Infographic images — your listing educates while it sells.");
+      if (a.aplusVisual === 'yes' ||
+          a.aplusTech   === 'yes')      w.push("🏆 A+ Content present — you're using one of the strongest conversion tools available.");
+      if (a.video === 'yes')            w.push("🏆 Video content — you're ahead of most competitors who still skip this.");
+      if (a.titleLength === '80to150')  w.push("🏆 Title length is in the sweet spot — readable and keyword-rich.");
+      if (a.bulletCount >= 5)           w.push("🏆 All 5 bullets used — maximum real estate, maximum impact.");
+      if (a.brandStoryCopy === 'yes')   w.push("🏆 Brand Story active — you're building trust beyond the product.");
+      if (a.backendTerms === 'yes')     w.push("🏆 Backend search terms filled — your invisible SEO layer is working.");
+      if (a.whiteBg === 'yes')          w.push("🏆 Clean white hero image — compliant and conversion-optimized.");
+      if (a.reviewCount === '1000plus') w.push("🏆 Strong social proof — your review count is a competitive moat.");
+      return w;
     }
 
-    /* ------------------------------------------------------------------
-       SUBMIT & DISPLAY RESULTS
-       ------------------------------------------------------------------ */
+    /* ════════════════════════════════════════════════════════════════════════
+       RECOMMENDATIONS BUILDER — ordered by impact (visual → copy → seo → tech)
+    ════════════════════════════════════════════════════════════════════════ */
+    function buildRecs(a) {
+      const recs = [];
 
+      /* — Visual — */
+      if (a.imageCount < 4)
+        recs.push({ emoji:'📸', issue:'Low image count', action:'Add more images. Listings with 7+ images convert significantly better. Shoot: hero on white, 2 lifestyle shots, 2 infographics, 1 scale reference, 1 packaging shot.', why:"Amazon's algorithm favors listings that use all available image slots." });
+      if (a.lifestyle === 'no')
+        recs.push({ emoji:'🏠', issue:'No lifestyle images', action:'Show your product being used by a real person in a real setting. This builds emotional connection and helps buyers visualize ownership.', why:'Lifestyle images consistently outperform product-only images in A/B tests.' });
+      if (a.infographic === 'no')
+        recs.push({ emoji:'📊', issue:'No infographic images', action:'Use text overlays to call out key features, dimensions, or ingredients. These are the images that answer questions before they\'re asked.', why:'Infographics reduce buyer uncertainty and decrease return rates.' });
+      if (a.aplusVisual === 'no')
+        recs.push({ emoji:'✨', issue:'No A+ Content', action:'Listings with A+ content see 5-10% higher conversion rates. Use comparison charts, brand story modules, and lifestyle banners.', why:'A+ content is free to add and directly indexed by Amazon\'s search algorithm.' });
+      if (a.video === 'no')
+        recs.push({ emoji:'🎬', issue:'No product video', action:'Even a simple 30-second video showing the product in use increases buyer confidence. Amazon prioritizes listings with video in search results.', why:'Listings with video have lower return rates and higher conversion.' });
+
+      /* — Copywriting — */
+      if (a.titleLength === 'under80')
+        recs.push({ emoji:'📝', issue:'Title too short', action:"You're leaving searchable real estate empty. Include your brand name, primary keyword, key feature, size/quantity, and a benefit.", why:'Short titles leave keywords and context on the table.' });
+      if (a.titleLength === 'over200')
+        recs.push({ emoji:'✂️', issue:'Title too long', action:'Keyword-stuffed titles hurt readability and trust. Edit down to 150–200 characters — enough for SEO without looking spammy.', why:"Amazon truncates long titles in search results, hiding your best copy." });
+      if (a.bulletCount < 4)
+        recs.push({ emoji:'🔹', issue:'Not enough bullet points', action:'Amazon allows 5 — use all of them. Each bullet should lead with a benefit in caps, then explain with supporting details.', why:'Bullet points are the first thing buyers read after the title and images.' });
+      if (a.bulletLength === 'short')
+        recs.push({ emoji:'📏', issue:'Bullet points too short', action:'Expand each one to 150–250 characters. Lead with the benefit, follow with the feature, close with the proof.', why:'Thin bullets signal a low-effort listing and fail to address buyer objections.' });
+      if (a.bulletLength === 'long')
+        recs.push({ emoji:'📏', issue:'Bullet points too long', action:'Dense text walls get skimmed. Keep each bullet to 150–250 characters — scannable but substantive.', why:'Buyers scan, they don\'t read. Overly long bullets lose people before the CTA.' });
+      if (a.brandStoryCopy === 'no')
+        recs.push({ emoji:'📖', issue:'No Brand Story section', action:"This is free real estate to tell your brand's origin, values, and mission. It builds trust and differentiates you from white-label competitors.", why:"Brand Story is one of the few places on Amazon where you can actually tell a story." });
+      if (a.description === 'no')
+        recs.push({ emoji:'📄', issue:'No product description', action: "Even though A+ content often replaces it, the description field still feeds Amazon's search algorithm. Don't leave it empty.", why: "Empty fields are ranking signals you're giving away for free." });
+
+      /* — SEO — */
+      if (a.brandInTitle === 'no')
+        recs.push({ emoji:'🏷️', issue:'Brand name missing from title', action:"Add your brand name to the title. It builds recognition and captures branded search traffic. Place it at the start.", why:"Branded search traffic converts at a higher rate than generic keyword traffic." });
+      if (a.keywordInTitle === 'no')
+        recs.push({ emoji:'🔍', issue:'Primary keyword missing from title', action:"This is the single most important ranking factor for Amazon search. If buyers search for it, it needs to be in your title.", why:"Amazon's A9 algorithm weights title keywords heavily for initial ranking." });
+      if ((parseInt(a.keywordBullets,10)||3) <= 2)
+        recs.push({ emoji:'🔎', issue:'Low keyword usage in bullets', action:"Work more keywords into your bullet points naturally. Each bullet is an opportunity to rank for long-tail search terms. Don't stuff — write for humans first.", why:"Bullet keywords are indexed by Amazon and contribute to long-tail ranking." });
+      if (a.backendTerms === 'no')
+        recs.push({ emoji:'⚙️', issue:'Backend search terms empty', action:'Fill these in via Seller Central. These are invisible to shoppers but critical for search ranking. Use all 250 bytes — include misspellings, synonyms, and Spanish translations.', why:"Backend terms are a direct ranking input Amazon never shows to competitors." });
+      if (a.backendTerms === 'unsure')
+        recs.push({ emoji:'⚙️', issue:'Backend search terms — not sure', action:"Check Seller Central → Edit Listing → Keywords tab. If this field is empty, you're missing a major ranking opportunity.", why:"Not knowing means they're probably empty. It takes 10 minutes to fix." });
+      if (a.categoryAttrs === 'no')
+        recs.push({ emoji:'📋', issue:'Category attributes incomplete', action:'Complete all category-specific attributes in Seller Central. Size, material, scent, flavor — these fields power Amazon\'s filtered search.', why:"Incomplete attributes mean you're invisible in filtered results." });
+
+      /* — Technical — */
+      if (a.whiteBg === 'no')
+        recs.push({ emoji:'⬜', issue:'Main image not on white background', action:'Your main image needs a pure white background (RGB 255,255,255). Amazon requires this and may suppress listings that don\'t comply.', why:"Non-compliant hero images can be suppressed from search results entirely." });
+      if (a.imageRes === 'no')
+        recs.push({ emoji:'🔍', issue:'Images below 1000px', action:'Upgrade your images to at least 1600×1600 pixels. Images under 1000px disable the zoom function, which shoppers rely on to inspect product details.', why:"Zoom capability directly increases conversion — buyers need to see detail." });
+      if (a.aplusTech === 'no')
+        recs.push({ emoji:'📐', issue:'No A+ Content (technical)', action:"A+ content isn't just visual — it's a technical ranking factor. Amazon has confirmed that A+ content is indexed for search.", why:"Not having it puts you at a structural disadvantage in rankings." });
+      if (a.brandStoryTech === 'no')
+        recs.push({ emoji:'📐', issue:'No Brand Story module', action:"The Brand Story module is a separate feature from A+ Content. It appears above A+ and lets you cross-sell other products.", why:"Most competitors have it — not having it is a missed opportunity." });
+      if (a.variations === 'no')
+        recs.push({ emoji:'🔗', issue:'No product variations', action:'If your product comes in multiple sizes, colors, or flavors, link them as variations. Combined review counts and sales velocity across variations boost ranking.', why:"Variation consolidation is one of the highest-leverage technical moves on Amazon." });
+      if (a.reviewCount === '0to10')
+        recs.push({ emoji:'⭐', issue:'Fewer than 10 reviews', action:"Focus on getting to 15+ reviews through follow-up emails, the Vine program, or product inserts with QR codes to your review page.", why:"Below 15 reviews, buyers hesitate. Social proof is a conversion floor." });
+      if (a.reviewCount === '11to100')
+        recs.push({ emoji:'⭐', issue:'Building review momentum', action:"You have a solid base. Focus on maintaining a 4.3+ star rating and responding to negatives quickly. Consider enrolling in Amazon Vine for a boost.", why:"Review velocity signals product-market fit to Amazon's algorithm." });
+
+      return recs;
+    }
+
+    /* ════════════════════════════════════════════════════════════════════════
+       SUBMIT FORM
+    ════════════════════════════════════════════════════════════════════════ */
     function submitForm() {
-      // Collect + validate final step
-      if (!collectAndValidate(3)) {
-        document.getElementById('error-3').classList.add('visible');
+      if (!collectAndValidate(4)) {
+        document.getElementById('error-4').classList.add('visible');
         return;
       }
-      document.getElementById('error-3').classList.remove('visible');
+      document.getElementById('error-4').classList.remove('visible');
 
-      // Mark last step done
-      document.getElementById(`prog-3`).classList.remove('active');
-      document.getElementById(`prog-3`).classList.add('completed');
-      document.getElementById(`prog-3`).querySelector('.step-dot').textContent = '✓';
+      // Mark last progress step
+      const prog4 = document.getElementById('prog-4');
+      prog4.classList.remove('active');
+      prog4.classList.add('completed');
+      prog4.querySelector('.step-dot').textContent = '✓';
 
-      // Calculate scores
+      // Score
       const visual = scoreVisual(answers);
       const copy   = scoreCopy(answers);
       const seo    = scoreSEO(answers);
       const tech   = scoreTech(answers);
+      const total  = visual.score + copy.score + seo.score + tech.score;
+      lastScore    = total;
 
-      const total = visual.score + copy.score + seo.score + tech.score;
-      lastScore = total;
+      const cat      = BENCHMARKS[answers.category] || BENCHMARKS.other;
+      const scoreCol = scoreHex(total, 100);
 
       // Tier
       let tier, tierSub;
       if (total >= 80) {
-        tier = 'Shelf-worthy';
-        tierSub = 'Your listing is firing on all cylinders.';
+        tier    = 'Shelf-worthy';
+        tierSub = 'This listing could hold its own against the best in the category. The fundamentals are locked in — now it\'s about refinement.';
+      } else if (total >= 60) {
+        tier    = 'Room to improve';
+        tierSub = 'Solid foundation, but the gaps are showing. The best listings in your category are doing things you\'re not. The good news: every fix here is actionable.';
       } else if (total >= 50) {
-        tier = 'Room to improve';
-        tierSub = 'Solid foundations — a few tweaks could push you higher.';
+        tier    = 'Middle of the pack';
+        tierSub = 'You\'re blending in when you should be standing out. Most of these fixes take hours, not weeks.';
       } else {
-        tier = 'Needs work';
-        tierSub = 'Good news: there\'s a lot of low-hanging fruit to grab.';
+        tier    = 'Needs work';
+        tierSub = 'This listing is working against itself. The product might be great — but the listing isn\'t telling that story. Start with the recommendations below.';
       }
 
-      // Wins: items with score == max
-      const allItems = [
-        ...visual.items,
-        ...copy.items,
-        ...seo.items,
-        ...tech.items,
-      ];
+      lastResults = { total, visual, copy, seo, tech, tier, tierSub, cat, scoreCol };
 
-      const wins  = allItems.filter(i => i.points > 0 && i.points === i.max);
-      const fixes = allItems.filter(i => i.points === 0);
+      // ── Populate DOM ──────────────────────────────────────────────────────
 
-      // ── Render ──────────────────────────────────────────────────────────
-
-      const mainColor = scoreColor(total, 100);
-
-      // Score badge
+      // Badge
       const badge = document.getElementById('scoreBadge');
-      badge.style.borderColor = mainColor;
-      badge.style.opacity = '0';
-      badge.style.transform = 'scale(0.85)';
-
-      document.getElementById('scoreNumber').style.color = mainColor;
+      badge.style.borderColor = scoreCol;
+      badge.style.boxShadow   = `0 0 40px ${scoreCol}30`;
+      document.getElementById('scoreNumber').style.color = scoreCol;
       document.getElementById('scoreNumber').textContent = total;
-      document.getElementById('scoreTier').textContent = tier;
-      document.getElementById('scoreTierSub').textContent = tierSub;
+      document.getElementById('scoreTier').textContent   = tier;
+      document.getElementById('scoreTierSub').textContent= tierSub;
 
-      // Pillar bars
+      // Benchmark
+      const diff     = total - cat.avg;
+      const diffAbs  = Math.abs(diff);
+      const aboveAvg = diff >= 0;
+      const diffCol  = aboveAvg ? '#4ADE80' : diffAbs >= 15 ? '#F87171' : '#FBBF24';
+
+      document.getElementById('benchAvgLabel').innerHTML =
+        `Average <strong>${cat.label}</strong> listing scores <strong>${cat.avg}/100</strong>`;
+
+      const pinAvg  = document.getElementById('benchPinAvg');
+      const pinUser = document.getElementById('benchPinUser');
+      pinAvg.style.left  = `${cat.avg}%`;
+      pinUser.style.left = `${total}%`;
+      pinUser.style.background = scoreCol;
+      document.getElementById('benchPinUserLabel').style.color = scoreCol;
+
+      document.getElementById('benchVerdict').innerHTML = aboveAvg
+        ? `<strong style="color:#4ADE80">You're ${diffAbs} point${diffAbs!==1?'s':''} above</strong> the average ${cat.label} listing.`
+        : `<strong style="color:${diffCol}">You're ${diffAbs} point${diffAbs!==1?'s':''} below</strong> the average ${cat.label} listing.`;
+
+      let context = '';
+      if (total >= 80)       context = 'Top-tier. This listing would stand out on any shelf.';
+      else if (total >= 60)  context = `Above average, but the best listings in ${cat.label} are pulling ahead.`;
+      else if (total >= 50)  context = 'Middle of the pack. You\'re blending in, not standing out.';
+      else                   context = 'Below average. Your competitors are outperforming this listing on basic fundamentals.';
+      document.getElementById('benchContext').textContent = context;
+
+      // Email gate sub copy
+      document.getElementById('emailGateSub').textContent =
+        `Get your pillar-by-pillar analysis and specific recommendations for your ${cat.label} listing.`;
+
+      // Pillar bars (pre-set widths to 0, animated after gate)
       const pillars = [
-        { score: visual.score, scoreEl: 'pillar-visual-score', barEl: 'pillar-visual-bar' },
-        { score: copy.score,   scoreEl: 'pillar-copy-score',   barEl: 'pillar-copy-bar'   },
-        { score: seo.score,    scoreEl: 'pillar-seo-score',    barEl: 'pillar-seo-bar'    },
-        { score: tech.score,   scoreEl: 'pillar-tech-score',   barEl: 'pillar-tech-bar'   },
+        { score: visual.score, scoreEl:'pillar-visual-score', barEl:'pillar-visual-bar' },
+        { score: copy.score,   scoreEl:'pillar-copy-score',   barEl:'pillar-copy-bar'   },
+        { score: seo.score,    scoreEl:'pillar-seo-score',    barEl:'pillar-seo-bar'    },
+        { score: tech.score,   scoreEl:'pillar-tech-score',   barEl:'pillar-tech-bar'   },
       ];
-
       pillars.forEach(p => {
         document.getElementById(p.scoreEl).textContent = `${p.score}/25`;
         const bar = document.getElementById(p.barEl);
-        bar.style.backgroundColor = pillarColor(p.score);
-        bar.style.width = '0%'; // reset before animation
+        bar.style.backgroundColor = pillarHex(p.score);
+        bar.style.width = '0%';
       });
 
-      // Wins list
-      const winsList = document.getElementById('winsList');
-      winsList.innerHTML = '';
+      // Wins
+      const wins = buildWins(answers);
+      const wEl  = document.getElementById('winsList');
+      wEl.innerHTML = '';
       if (wins.length === 0) {
-        winsList.innerHTML = '<li class="feedback-empty">Keep pushing — there\'s more to unlock.</li>';
+        wEl.innerHTML = '<div class="feedback-empty">Keep pushing — there\'s more to unlock.</div>';
       } else {
-        wins.slice(0, 6).forEach(w => {
-          const li = document.createElement('li');
-          li.textContent = w.label;
-          winsList.appendChild(li);
+        wins.forEach(w => {
+          const d = document.createElement('div');
+          d.className = 'win-item';
+          d.textContent = w;
+          wEl.appendChild(d);
         });
       }
 
-      // Fixes list
-      const fixesList = document.getElementById('fixesList');
-      fixesList.innerHTML = '';
-      if (fixes.length === 0) {
-        fixesList.innerHTML = '<li class="feedback-empty">Nothing obvious — great work!</li>';
+      // Recs
+      const recs = buildRecs(answers);
+      const rEl  = document.getElementById('recsList');
+      rEl.innerHTML = '';
+      if (recs.length === 0) {
+        rEl.innerHTML = '<div class="recs-empty">Nothing obvious to fix — your listing is in great shape.</div>';
       } else {
-        fixes.slice(0, 6).forEach(f => {
-          const li = document.createElement('li');
-          li.textContent = f.label;
-          fixesList.appendChild(li);
+        recs.forEach(r => {
+          rEl.innerHTML += `
+            <div class="rec-card">
+              <div class="rec-top">
+                <span class="rec-emoji">${r.emoji}</span>
+                <span class="rec-issue">${r.issue}</span>
+              </div>
+              <div class="rec-action">${r.action}</div>
+              <div class="rec-why">${r.why}</div>
+            </div>`;
         });
       }
 
-      // ── Hide form, show results ──────────────────────────────────────────
+      // Shelf badge
+      if (total >= 80) {
+        document.getElementById('sectionShelfBadge').classList.remove('hidden');
+        document.getElementById('badgeScorePreview').textContent = `${total}/100`;
+        const embedCode = `<a href="https://shelvd-score.vercel.app"><img src="https://shelvd-score.vercel.app/badge/${total}.svg" alt="Shelvd Score: ${total}"></a>`;
+        document.getElementById('embedCodeDisplay').textContent = embedCode;
+      }
+
+      // ── Show results, hide form ────────────────────────────────────────────
       document.getElementById('formWrap').classList.add('hidden');
       document.getElementById('progressWrap').classList.add('hidden');
-
-      const resultsWrap = document.getElementById('resultsWrap');
-      resultsWrap.classList.add('visible');
-
-      // Scroll to top
+      const rw = document.getElementById('resultsWrap');
+      rw.classList.add('visible');
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
-      // ── Animate badge pop ──────────────────────────────────────────────
-      requestAnimationFrame(() => {
-        badge.style.transition = 'opacity 0ms, transform 0ms';
-        badge.style.opacity = '0';
-        badge.style.transform = 'scale(0.85)';
-
-        setTimeout(() => {
-          badge.style.transition = 'opacity 500ms cubic-bezier(0.34,1.56,0.64,1), transform 500ms cubic-bezier(0.34,1.56,0.64,1)';
-          badge.style.opacity = '1';
-          badge.style.transform = 'scale(1)';
-        }, 100);
-
-        // Animate pillar bars after a short delay
-        setTimeout(() => {
-          pillars.forEach(p => {
-            const bar = document.getElementById(p.barEl);
-            bar.style.width = `${(p.score / 25) * 100}%`;
-          });
-        }, 400);
-      });
+      // ── Dramatic reveal sequence ───────────────────────────────────────────
+      reveal('sectionBadge',     80);   // badge pops in
+      reveal('sectionBenchmark', 650);  // benchmark slides up
+      reveal('sectionEmailGate', 1050); // gate fades in
     }
 
-    /* ------------------------------------------------------------------
+    /* ── Reveal helper ──────────────────────────────────────────────────── */
+    function reveal(id, delay) {
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('shown');
+      }, delay);
+    }
+
+    /* ════════════════════════════════════════════════════════════════════════
+       EMAIL GATE
+    ════════════════════════════════════════════════════════════════════════ */
+    function submitEmail() {
+      const emailVal = document.getElementById('emailInput').value.trim();
+      const errEl    = document.getElementById('emailError');
+      if (!emailVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+        errEl.classList.add('visible');
+        return;
+      }
+      errEl.classList.remove('visible');
+      try { localStorage.setItem('shelvd_email', emailVal); } catch(e){}
+      document.getElementById('emailGateCard').style.display = 'none';
+      revealFullResults();
+    }
+
+    function skipEmail() {
+      document.getElementById('emailGateCard').style.display = 'none';
+      revealFullResults();
+    }
+
+    function revealFullResults() {
+      const fr = document.getElementById('fullResults');
+      fr.style.display = 'block';
+
+      // Reveal pillars section
+      reveal('sectionPillars', 80);
+
+      // Stagger individual pillar rows
+      ['pillarRow0','pillarRow1','pillarRow2','pillarRow3'].forEach((id, i) => {
+        setTimeout(() => {
+          const row = document.getElementById(id);
+          if (row) row.classList.add('shown');
+          // Animate bar fill after row appears
+          const barIds = ['pillar-visual-bar','pillar-copy-bar','pillar-seo-bar','pillar-tech-bar'];
+          const scores = [
+            lastResults.visual.score,
+            lastResults.copy.score,
+            lastResults.seo.score,
+            lastResults.tech.score,
+          ];
+          const bar = document.getElementById(barIds[i]);
+          if (bar) bar.style.width = `${(scores[i] / 25) * 100}%`;
+        }, 180 + i * 200);
+      });
+
+      reveal('sectionWins',      880);
+      reveal('sectionRecs',      1200);
+      reveal('sectionShelfBadge',1500);
+      reveal('sectionActions',   1700);
+    }
+
+    /* ════════════════════════════════════════════════════════════════════════
        SHARE
-       ------------------------------------------------------------------ */
-
+    ════════════════════════════════════════════════════════════════════════ */
     function shareScore() {
-      const score = lastScore !== null ? lastScore : '—';
-      const url = window.location.href.split('?')[0];
-      const text = `My Amazon listing just got scored by Shelvd: ${score}/100. Get yours at ${url}`;
-
+      const cat  = BENCHMARKS[answers.category] || BENCHMARKS.other;
+      const text = `I just scored my Amazon listing with Shelvd: ${lastScore}/100 (${cat.label}). How does yours stack up? → shelvd-score.vercel.app`;
       navigator.clipboard.writeText(text).then(() => {
         const fb = document.getElementById('copyFeedback');
         fb.classList.add('visible');
         setTimeout(() => fb.classList.remove('visible'), 2500);
-      }).catch(() => {
-        // Fallback for environments without clipboard API
-        prompt('Copy this text:', text);
+      }).catch(() => prompt('Copy this:', text));
+    }
+
+    /* ════════════════════════════════════════════════════════════════════════
+       CANVAS SCORE CARD — 1200×630 PNG download
+    ════════════════════════════════════════════════════════════════════════ */
+    function drawRoundRect(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.arcTo(x + w, y,     x + w, y + r,     r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
+      ctx.lineTo(x + r, y + h);
+      ctx.arcTo(x,     y + h, x,     y + h - r, r);
+      ctx.lineTo(x,     y + r);
+      ctx.arcTo(x,     y,     x + r, y,          r);
+      ctx.closePath();
+    }
+
+    function loadImg(src) {
+      return new Promise((res, rej) => {
+        const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src;
       });
     }
 
-    /* ------------------------------------------------------------------
-       RESET
-       ------------------------------------------------------------------ */
+    async function downloadScoreCard() {
+      const r   = lastResults;
+      if (!r) return;
+      const cat = r.cat;
 
+      await document.fonts.ready;
+
+      const canvas = document.createElement('canvas');
+      canvas.width = 1200; canvas.height = 630;
+      const ctx = canvas.getContext('2d');
+
+      // Background
+      ctx.fillStyle = '#0C0C0E';
+      ctx.fillRect(0, 0, 1200, 630);
+
+      // Subtle gradient overlay
+      const grad = ctx.createLinearGradient(0, 0, 1200, 630);
+      grad.addColorStop(0,   'rgba(242,195,136,0.04)');
+      grad.addColorStop(0.5, 'rgba(0,0,0,0)');
+      grad.addColorStop(1,   'rgba(242,195,136,0.03)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 1200, 630);
+
+      // Vertical divider
+      ctx.strokeStyle = '#2A2A2D';
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(570, 60); ctx.lineTo(570, 570); ctx.stroke();
+
+      // — LEFT PANEL —
+      const lx = 60, cy = 310;
+
+      // Logo
+      let logoLoaded = false;
+      try {
+        const logo = await loadImg('NEWLOGO.png');
+        const lh   = 44;
+        const lw   = logo.width * (lh / logo.height);
+        ctx.drawImage(logo, lx, 56, lw, lh);
+        logoLoaded = true;
+      } catch(e) {}
+
+      if (!logoLoaded) {
+        ctx.fillStyle = '#F2C388';
+        ctx.font = '600 30px "Space Grotesk", sans-serif';
+        ctx.fillText('shelvd', lx, 90);
+      }
+
+      // Badge
+      const bw = 180, bh = 180;
+      const bx = lx + 115 - bw/2, by = cy - bh/2;
+      ctx.fillStyle = '#161618';
+      drawRoundRect(ctx, bx, by, bw, bh, 36); ctx.fill();
+      ctx.save();
+      ctx.shadowColor = r.scoreCol; ctx.shadowBlur = 28;
+      ctx.strokeStyle = r.scoreCol; ctx.lineWidth = 2.5;
+      drawRoundRect(ctx, bx, by, bw, bh, 36); ctx.stroke();
+      ctx.restore();
+
+      // Score number
+      ctx.fillStyle   = r.scoreCol;
+      ctx.font        = 'bold 72px "Space Grotesk", sans-serif';
+      ctx.textAlign   = 'center';
+      ctx.fillText(r.total, lx + 115, cy + 22);
+
+      // /100
+      ctx.fillStyle = '#8A897F';
+      ctx.font      = '500 16px "Space Grotesk", sans-serif';
+      ctx.fillText('/100', lx + 115, cy + 47);
+
+      // Tier
+      ctx.fillStyle = '#F0EFEB';
+      ctx.font      = '600 24px "Space Grotesk", sans-serif';
+      ctx.fillText(r.tier, lx + 115, by + bh + 40);
+
+      // Category
+      ctx.fillStyle = '#8A897F';
+      ctx.font      = '400 14px "Inter", sans-serif';
+      ctx.fillText(cat.label, lx + 115, by + bh + 64);
+
+      // Benchmark verdict
+      const diff    = r.total - cat.avg;
+      const diffCol = diff >= 0 ? '#4ADE80' : Math.abs(diff) >= 15 ? '#F87171' : '#FBBF24';
+      ctx.fillStyle = diffCol;
+      ctx.font      = '500 13px "Inter", sans-serif';
+      const bText   = diff >= 0
+        ? `${Math.abs(diff)} pts above the ${cat.label} average`
+        : `${Math.abs(diff)} pts below the ${cat.label} average`;
+      ctx.fillText(bText, lx + 115, by + bh + 88);
+
+      ctx.textAlign = 'left';
+
+      // — RIGHT PANEL —
+      const rx = 610, barW = 510;
+      let ry = 80;
+
+      ctx.fillStyle = '#8A897F';
+      ctx.font      = '600 11px "Space Grotesk", sans-serif';
+      ctx.fillText('SCORE BREAKDOWN', rx, ry);
+      ry += 38;
+
+      const pillarData = [
+        { name:'Visual Quality',     score: r.visual.score },
+        { name:'Copywriting',        score: r.copy.score   },
+        { name:'SEO',                score: r.seo.score    },
+        { name:'Technical',          score: r.tech.score   },
+      ];
+
+      pillarData.forEach(p => {
+        // Name
+        ctx.fillStyle = '#F0EFEB';
+        ctx.font      = '500 15px "Inter", sans-serif';
+        ctx.fillText(p.name, rx, ry);
+
+        // Score label (right-aligned)
+        const sLabel = `${p.score}/25`;
+        ctx.fillStyle = '#8A897F';
+        ctx.font      = '600 13px "Space Grotesk", sans-serif';
+        const sw = ctx.measureText(sLabel).width;
+        ctx.fillText(sLabel, rx + barW - sw, ry);
+
+        ry += 16;
+
+        // Track
+        ctx.fillStyle = '#1E1E21';
+        drawRoundRect(ctx, rx, ry, barW, 8, 4); ctx.fill();
+
+        // Fill
+        const fw = (p.score / 25) * barW;
+        ctx.fillStyle = pillarHex(p.score);
+        drawRoundRect(ctx, rx, ry, Math.max(fw, 4), 8, 4); ctx.fill();
+
+        ry += 36;
+      });
+
+      // — FOOTER —
+      const fy = 600;
+      ctx.strokeStyle = '#2A2A2D'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(0, fy - 28); ctx.lineTo(1200, fy - 28); ctx.stroke();
+
+      ctx.fillStyle = '#8A897F';
+      ctx.font      = '400 13px "Inter", sans-serif';
+      ctx.fillText('shelvd-score.vercel.app', 60, fy);
+
+      ctx.fillStyle = '#F2C388';
+      ctx.font      = '600 13px "Inter", sans-serif';
+      const ctaTxt  = 'Get your score →';
+      const ctaW    = ctx.measureText(ctaTxt).width;
+      ctx.fillText(ctaTxt, 1200 - 60 - ctaW, fy);
+
+      // Download
+      canvas.toBlob(blob => {
+        const url = URL.createObjectURL(blob);
+        const a   = document.createElement('a');
+        a.href     = url;
+        a.download = `shelvd-score-${r.total}.png`;
+        a.click();
+        URL.revokeObjectURL(url);
+      }, 'image/png');
+    }
+
+    /* ════════════════════════════════════════════════════════════════════════
+       EMBED CODE COPY
+    ════════════════════════════════════════════════════════════════════════ */
+    function copyEmbedCode() {
+      const code = document.getElementById('embedCodeDisplay').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        const el = document.getElementById('embedCopied');
+        el.classList.add('visible');
+        setTimeout(() => el.classList.remove('visible'), 2500);
+      }).catch(() => prompt('Copy embed code:', code));
+    }
+
+    /* ════════════════════════════════════════════════════════════════════════
+       RESET
+    ════════════════════════════════════════════════════════════════════════ */
     function resetForm() {
-      // Clear answers
-      for (const key in answers) delete answers[key];
-      lastScore = null;
+      for (const k in answers) delete answers[k];
+      lastScore = null; lastResults = null;
       currentStep = 0;
 
-      // Reset stepper inputs
-      document.getElementById('imageCount').value = '';
-      document.getElementById('bulletCount').value = '';
-
-      // Reset selects
-      document.getElementById('titleLength').value = '';
-      document.getElementById('bulletLength').value = '';
-      document.getElementById('reviewCount').value = '';
-
-      // Reset slider
-      document.getElementById('keywordBullets').value = 3;
-      document.getElementById('keywordBulletsVal').textContent = '3';
-
-      // Reset all toggle buttons
+      // Clear inputs
+      ['imageCount','bulletCount'].forEach(id => {
+        const el = document.getElementById(id); if (el) el.value = '';
+      });
+      ['category','titleLength','bulletLength','reviewCount'].forEach(id => {
+        const el = document.getElementById(id); if (el) el.value = '';
+      });
+      const slider = document.getElementById('keywordBullets');
+      if (slider) { slider.value = 3; document.getElementById('kbVal').textContent = '3'; }
       document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('selected'));
 
-      // Reset progress indicators
-      for (let i = 0; i < 4; i++) {
-        const prog = document.getElementById(`prog-${i}`);
-        prog.classList.remove('active', 'completed');
-        prog.querySelector('.step-dot').textContent = i + 1;
+      // Reset progress
+      for (let i = 0; i < 5; i++) {
+        const p = document.getElementById(`prog-${i}`);
+        p.classList.remove('active','completed');
+        p.querySelector('.step-dot').textContent = i + 1;
       }
       document.getElementById('prog-0').classList.add('active');
 
-      // Reset step visibility
+      // Reset steps
       document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
       document.getElementById('step-0').classList.add('active');
 
       // Clear errors
       document.querySelectorAll('.step-error').forEach(e => e.classList.remove('visible'));
 
-      // Hide results, show form
+      // Reset result sections
+      document.querySelectorAll('.reveal-section').forEach(s => s.classList.remove('shown'));
+      document.getElementById('fullResults').style.display = 'none';
+      document.getElementById('emailGateCard').style.display = '';
+      document.getElementById('emailInput').value = '';
+      document.getElementById('emailError').classList.remove('visible');
+      document.getElementById('sectionShelfBadge').classList.add('hidden');
+      document.getElementById('copyFeedback').classList.remove('visible');
+
+      // Show form
       document.getElementById('resultsWrap').classList.remove('visible');
       document.getElementById('formWrap').classList.remove('hidden');
       document.getElementById('progressWrap').classList.remove('hidden');
@@ -1744,6 +1379,5 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   </script>
-
 </body>
 </html>
