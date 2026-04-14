@@ -1172,7 +1172,6 @@
       ctx.fillStyle = '#0C0C0E';
       ctx.fillRect(0, 0, W, H);
 
-      // Diagonal gradient wash
       const grad = ctx.createLinearGradient(0, 0, W, H);
       grad.addColorStop(0,   'rgba(242,195,136,0.05)');
       grad.addColorStop(0.5, 'rgba(0,0,0,0)');
@@ -1180,77 +1179,114 @@
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, W, H);
 
-      // Peach border frame (1 px, 30% opacity)
+      // Peach border frame (1px, 30% opacity)
       ctx.save();
       ctx.strokeStyle = 'rgba(242,195,136,0.30)';
       ctx.lineWidth = 1;
       ctx.strokeRect(0.5, 0.5, W - 1, H - 1);
       ctx.restore();
 
-      // ── LOGO — top-center ───────────────────────────────────────────────────
-      const LOGO_H = 52;
-      const LOGO_Y = 38;
-      let logoLoaded = false;
+      // ── LOGO — top-center, spanning full card as brand header ───────────────
+      // Target: ≥150px wide, max 58px tall (keeps it proportional for any aspect)
+      const LOGO_Y       = 26;
+      const LOGO_TGT_W   = 150;
+      const LOGO_MAX_H   = 58;
+      let logoRenderedH  = 42;  // fallback estimate
+
       try {
         const logo = await loadImg('NEWLOGO.png');
-        const lw   = logo.width * (LOGO_H / logo.height);
-        ctx.drawImage(logo, W/2 - lw/2, LOGO_Y, lw, LOGO_H);
-        logoLoaded = true;
-      } catch(e) {}
-
-      if (!logoLoaded) {
+        let lw = LOGO_TGT_W;
+        let lh = lw * (logo.height / logo.width);
+        if (lh > LOGO_MAX_H) { lh = LOGO_MAX_H; lw = lh * (logo.width / logo.height); }
+        ctx.drawImage(logo, W/2 - lw/2, LOGO_Y, lw, lh);
+        logoRenderedH = lh;
+      } catch(e) {
+        // Text fallback
         ctx.fillStyle = '#F2C388';
-        ctx.font      = '600 34px "Space Grotesk", sans-serif';
+        ctx.font      = '600 36px "Space Grotesk", sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillText('shelvd', W/2, LOGO_Y + LOGO_H - 8);
+        ctx.fillText('shelvd', W/2, LOGO_Y + 38);
+        logoRenderedH = 40;
       }
 
-      // ── Vertical divider ────────────────────────────────────────────────────
-      const DIVIDER_X = 560;
+      // Thin rule under logo — visually frames it as a card header
+      const LOGO_RULE_Y  = LOGO_Y + logoRenderedH + 14;
       ctx.strokeStyle = '#2A2A2D';
-      ctx.lineWidth = 1;
+      ctx.lineWidth   = 1;
       ctx.beginPath();
-      ctx.moveTo(DIVIDER_X, 110); ctx.lineTo(DIVIDER_X, 548);
+      ctx.moveTo(60, LOGO_RULE_Y); ctx.lineTo(W - 60, LOGO_RULE_Y);
       ctx.stroke();
 
-      // ── LEFT PANEL — score badge centered at x=280 ─────────────────────────
-      const LCX = 280;   // left panel horizontal center
-      const LCY = 320;   // left panel vertical center
+      // ── GEOMETRY — right panel determines badge alignment ───────────────────
+      // All vertical positions derive from CONTENT_TOP so the logo height is
+      // automatically absorbed.
+      const CONTENT_TOP = LOGO_RULE_Y + 18;   // ~110 for a ~50px-tall logo
 
-      const BW = 200, BH = 200, BR = 40;
-      const bx = LCX - BW/2, by = LCY - BH/2;
+      const DIV_X    = 560;
+      const RX       = DIV_X + 50;            // 610 — right panel left edge
+      const BAR_W    = W - RX - 60;           // ~530px bar width
+      const BAR_H    = 10;
+      const LBL_GAP  = 22;                    // label baseline → bar top
+      const ROW_GAP  = 60;                    // bar bottom → next label baseline
+      const ROW_H    = LBL_GAP + BAR_H + ROW_GAP; // 92px per row
 
+      const HEADING_Y = CONTENT_TOP + 18;     // "SCORE BREAKDOWN" baseline
+      const FIRST_RY  = HEADING_Y + 44;       // first pillar label baseline
+
+      // Bar extents (computed, not drawn yet)
+      const bar0Top = FIRST_RY + LBL_GAP;
+      const bar3Bot = FIRST_RY + 3 * ROW_H + LBL_GAP + BAR_H;
+      const BAR_MID = Math.round((bar0Top + bar3Bot) / 2);
+      // BAR_MID is where the score number should visually sit
+
+      // ── VERTICAL DIVIDER ────────────────────────────────────────────────────
+      ctx.strokeStyle = '#2A2A2D';
+      ctx.lineWidth   = 1;
+      ctx.beginPath();
+      ctx.moveTo(DIV_X, CONTENT_TOP); ctx.lineTo(DIV_X, bar3Bot + 60);
+      ctx.stroke();
+
+      // ── LEFT PANEL — badge centered on BAR_MID ──────────────────────────────
+      const LCX  = 280;         // horizontal centre of left third
+      const LCY  = BAR_MID;     // badge centre synced to bar midpoint
+      const BW   = 200, BH = 200, BR = 40;
+      const bx   = LCX - BW/2;
+      const by   = LCY - BH/2;
+
+      // Tier name — above badge
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#F0EFEB';
+      ctx.font      = '600 20px "Space Grotesk", sans-serif';
+      ctx.fillText(r.tier, LCX, by - 42);
+
+      // Category — just above badge
+      ctx.fillStyle = '#8A897F';
+      ctx.font      = '400 13px "Inter", sans-serif';
+      ctx.fillText(cat.label, LCX, by - 20);
+
+      // Badge fill
       ctx.fillStyle = '#161618';
       drawRoundRect(ctx, bx, by, BW, BH, BR); ctx.fill();
 
+      // Badge glow + coloured stroke
       ctx.save();
       ctx.shadowColor = r.scoreCol; ctx.shadowBlur = 32;
-      ctx.strokeStyle = r.scoreCol; ctx.lineWidth = 2.5;
+      ctx.strokeStyle = r.scoreCol; ctx.lineWidth   = 2.5;
       drawRoundRect(ctx, bx, by, BW, BH, BR); ctx.stroke();
       ctx.restore();
 
-      // Score number
-      ctx.textAlign   = 'center';
-      ctx.fillStyle   = r.scoreCol;
-      ctx.font        = 'bold 78px "Space Grotesk", sans-serif';
+      // Score number (visual centre ≈ LCY)
+      ctx.fillStyle = r.scoreCol;
+      ctx.font      = 'bold 78px "Space Grotesk", sans-serif';
       ctx.fillText(r.total, LCX, LCY + 26);
 
       // /100
       ctx.fillStyle = '#8A897F';
       ctx.font      = '500 17px "Space Grotesk", sans-serif';
-      ctx.fillText('/100', LCX, LCY + 54);
+      ctx.fillText('/100', LCX, LCY + 52);
 
-      // Tier label
-      ctx.fillStyle = '#F0EFEB';
-      ctx.font      = '600 26px "Space Grotesk", sans-serif';
-      ctx.fillText(r.tier, LCX, by + BH + 52);
-
-      // Category
-      ctx.fillStyle = '#8A897F';
-      ctx.font      = '400 15px "Inter", sans-serif';
-      ctx.fillText(cat.label, LCX, by + BH + 80);
-
-      // Benchmark delta
+      // Benchmark delta — just below badge, aligns with last bar bottom
+      // bar3Bot ≈ by + BH + 36  (within ~10px by design)
       const diff    = r.total - cat.avg;
       const diffCol = diff >= 0 ? '#4ADE80' : Math.abs(diff) >= 15 ? '#F87171' : '#FBBF24';
       ctx.fillStyle = diffCol;
@@ -1259,22 +1295,16 @@
         diff >= 0
           ? `${Math.abs(diff)} pts above the ${cat.label} average`
           : `${Math.abs(diff)} pts below the ${cat.label} average`,
-        LCX, by + BH + 106
+        LCX,
+        by + BH + 38   // ≈ bar3Bot by construction
       );
 
       ctx.textAlign = 'left';
 
       // ── RIGHT PANEL — pillar bars ────────────────────────────────────────────
-      const RX   = DIVIDER_X + 50;   // left edge of right panel
-      const BAR_W = W - RX - 60;     // bar width = ~530px
-      const BAR_H = 10;
-      let ry = 118;
-
-      // Section heading
       ctx.fillStyle = '#8A897F';
       ctx.font      = '600 12px "Space Grotesk", sans-serif';
-      ctx.fillText('SCORE BREAKDOWN', RX, ry);
-      ry += 52;  // breathing room before first pillar
+      ctx.fillText('SCORE BREAKDOWN', RX, HEADING_Y);
 
       const pillarData = [
         { name:'Visual Quality', score: r.visual.score },
@@ -1283,20 +1313,21 @@
         { name:'Technical',      score: r.tech.score   },
       ];
 
+      let ry = FIRST_RY;
       pillarData.forEach(p => {
-        // Pillar name
+        // Label
         ctx.fillStyle = '#F0EFEB';
         ctx.font      = '500 18px "Inter", sans-serif';
         ctx.fillText(p.name, RX, ry);
 
-        // Score label — right-aligned, slightly larger
+        // Score (right-aligned, coloured)
         const sLabel = `${p.score}/25`;
         ctx.fillStyle = pillarHex(p.score);
         ctx.font      = '600 17px "Space Grotesk", sans-serif';
         const sw = ctx.measureText(sLabel).width;
         ctx.fillText(sLabel, RX + BAR_W - sw, ry);
 
-        ry += 22;
+        ry += LBL_GAP;
 
         // Track
         ctx.fillStyle = '#1E1E21';
@@ -1307,7 +1338,7 @@
         ctx.fillStyle = pillarHex(p.score);
         drawRoundRect(ctx, RX, ry, Math.max(fw, 6), BAR_H, 5); ctx.fill();
 
-        ry += BAR_H + 46;  // generous gap between pillars
+        ry += BAR_H + ROW_GAP;
       });
 
       // ── FOOTER ───────────────────────────────────────────────────────────────
@@ -1315,19 +1346,16 @@
       ctx.strokeStyle = '#2A2A2D'; ctx.lineWidth = 1;
       ctx.beginPath(); ctx.moveTo(60, FY - 22); ctx.lineTo(W - 60, FY - 22); ctx.stroke();
 
-      // URL — peach
       ctx.fillStyle = '#F2C388';
       ctx.font      = '400 14px "Inter", sans-serif';
       ctx.fillText('shelvd-score.vercel.app', 60, FY);
 
-      // CTA — peach bold
-      ctx.fillStyle = '#F2C388';
       ctx.font      = '600 14px "Inter", sans-serif';
       const ctaTxt  = 'Get your score →';
       const ctaW    = ctx.measureText(ctaTxt).width;
       ctx.fillText(ctaTxt, W - 60 - ctaW, FY);
 
-      // Download
+      // ── Download ─────────────────────────────────────────────────────────────
       canvas.toBlob(blob => {
         const url = URL.createObjectURL(blob);
         const a   = document.createElement('a');
