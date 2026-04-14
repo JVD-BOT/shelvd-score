@@ -1163,147 +1163,169 @@
 
       await document.fonts.ready;
 
+      const W = 1200, H = 630;
       const canvas = document.createElement('canvas');
-      canvas.width = 1200; canvas.height = 630;
+      canvas.width = W; canvas.height = H;
       const ctx = canvas.getContext('2d');
 
-      // Background
+      // ── Background ──────────────────────────────────────────────────────────
       ctx.fillStyle = '#0C0C0E';
-      ctx.fillRect(0, 0, 1200, 630);
+      ctx.fillRect(0, 0, W, H);
 
-      // Subtle gradient overlay
-      const grad = ctx.createLinearGradient(0, 0, 1200, 630);
-      grad.addColorStop(0,   'rgba(242,195,136,0.04)');
+      // Diagonal gradient wash
+      const grad = ctx.createLinearGradient(0, 0, W, H);
+      grad.addColorStop(0,   'rgba(242,195,136,0.05)');
       grad.addColorStop(0.5, 'rgba(0,0,0,0)');
-      grad.addColorStop(1,   'rgba(242,195,136,0.03)');
+      grad.addColorStop(1,   'rgba(242,195,136,0.04)');
       ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, 1200, 630);
+      ctx.fillRect(0, 0, W, H);
 
-      // Vertical divider
-      ctx.strokeStyle = '#2A2A2D';
+      // Peach border frame (1 px, 30% opacity)
+      ctx.save();
+      ctx.strokeStyle = 'rgba(242,195,136,0.30)';
       ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.moveTo(570, 60); ctx.lineTo(570, 570); ctx.stroke();
+      ctx.strokeRect(0.5, 0.5, W - 1, H - 1);
+      ctx.restore();
 
-      // — LEFT PANEL —
-      const lx = 60, cy = 310;
-
-      // Logo
+      // ── LOGO — top-center ───────────────────────────────────────────────────
+      const LOGO_H = 52;
+      const LOGO_Y = 38;
       let logoLoaded = false;
       try {
         const logo = await loadImg('NEWLOGO.png');
-        const lh   = 44;
-        const lw   = logo.width * (lh / logo.height);
-        ctx.drawImage(logo, lx, 56, lw, lh);
+        const lw   = logo.width * (LOGO_H / logo.height);
+        ctx.drawImage(logo, W/2 - lw/2, LOGO_Y, lw, LOGO_H);
         logoLoaded = true;
       } catch(e) {}
 
       if (!logoLoaded) {
         ctx.fillStyle = '#F2C388';
-        ctx.font = '600 30px "Space Grotesk", sans-serif';
-        ctx.fillText('shelvd', lx, 90);
+        ctx.font      = '600 34px "Space Grotesk", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('shelvd', W/2, LOGO_Y + LOGO_H - 8);
       }
 
-      // Badge
-      const bw = 180, bh = 180;
-      const bx = lx + 115 - bw/2, by = cy - bh/2;
+      // ── Vertical divider ────────────────────────────────────────────────────
+      const DIVIDER_X = 560;
+      ctx.strokeStyle = '#2A2A2D';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(DIVIDER_X, 110); ctx.lineTo(DIVIDER_X, 548);
+      ctx.stroke();
+
+      // ── LEFT PANEL — score badge centered at x=280 ─────────────────────────
+      const LCX = 280;   // left panel horizontal center
+      const LCY = 320;   // left panel vertical center
+
+      const BW = 200, BH = 200, BR = 40;
+      const bx = LCX - BW/2, by = LCY - BH/2;
+
       ctx.fillStyle = '#161618';
-      drawRoundRect(ctx, bx, by, bw, bh, 36); ctx.fill();
+      drawRoundRect(ctx, bx, by, BW, BH, BR); ctx.fill();
+
       ctx.save();
-      ctx.shadowColor = r.scoreCol; ctx.shadowBlur = 28;
+      ctx.shadowColor = r.scoreCol; ctx.shadowBlur = 32;
       ctx.strokeStyle = r.scoreCol; ctx.lineWidth = 2.5;
-      drawRoundRect(ctx, bx, by, bw, bh, 36); ctx.stroke();
+      drawRoundRect(ctx, bx, by, BW, BH, BR); ctx.stroke();
       ctx.restore();
 
       // Score number
-      ctx.fillStyle   = r.scoreCol;
-      ctx.font        = 'bold 72px "Space Grotesk", sans-serif';
       ctx.textAlign   = 'center';
-      ctx.fillText(r.total, lx + 115, cy + 22);
+      ctx.fillStyle   = r.scoreCol;
+      ctx.font        = 'bold 78px "Space Grotesk", sans-serif';
+      ctx.fillText(r.total, LCX, LCY + 26);
 
       // /100
       ctx.fillStyle = '#8A897F';
-      ctx.font      = '500 16px "Space Grotesk", sans-serif';
-      ctx.fillText('/100', lx + 115, cy + 47);
+      ctx.font      = '500 17px "Space Grotesk", sans-serif';
+      ctx.fillText('/100', LCX, LCY + 54);
 
-      // Tier
+      // Tier label
       ctx.fillStyle = '#F0EFEB';
-      ctx.font      = '600 24px "Space Grotesk", sans-serif';
-      ctx.fillText(r.tier, lx + 115, by + bh + 40);
+      ctx.font      = '600 26px "Space Grotesk", sans-serif';
+      ctx.fillText(r.tier, LCX, by + BH + 52);
 
       // Category
       ctx.fillStyle = '#8A897F';
-      ctx.font      = '400 14px "Inter", sans-serif';
-      ctx.fillText(cat.label, lx + 115, by + bh + 64);
+      ctx.font      = '400 15px "Inter", sans-serif';
+      ctx.fillText(cat.label, LCX, by + BH + 80);
 
-      // Benchmark verdict
+      // Benchmark delta
       const diff    = r.total - cat.avg;
       const diffCol = diff >= 0 ? '#4ADE80' : Math.abs(diff) >= 15 ? '#F87171' : '#FBBF24';
       ctx.fillStyle = diffCol;
-      ctx.font      = '500 13px "Inter", sans-serif';
-      const bText   = diff >= 0
-        ? `${Math.abs(diff)} pts above the ${cat.label} average`
-        : `${Math.abs(diff)} pts below the ${cat.label} average`;
-      ctx.fillText(bText, lx + 115, by + bh + 88);
+      ctx.font      = '500 14px "Inter", sans-serif';
+      ctx.fillText(
+        diff >= 0
+          ? `${Math.abs(diff)} pts above the ${cat.label} average`
+          : `${Math.abs(diff)} pts below the ${cat.label} average`,
+        LCX, by + BH + 106
+      );
 
       ctx.textAlign = 'left';
 
-      // — RIGHT PANEL —
-      const rx = 610, barW = 510;
-      let ry = 80;
+      // ── RIGHT PANEL — pillar bars ────────────────────────────────────────────
+      const RX   = DIVIDER_X + 50;   // left edge of right panel
+      const BAR_W = W - RX - 60;     // bar width = ~530px
+      const BAR_H = 10;
+      let ry = 118;
 
+      // Section heading
       ctx.fillStyle = '#8A897F';
-      ctx.font      = '600 11px "Space Grotesk", sans-serif';
-      ctx.fillText('SCORE BREAKDOWN', rx, ry);
-      ry += 38;
+      ctx.font      = '600 12px "Space Grotesk", sans-serif';
+      ctx.fillText('SCORE BREAKDOWN', RX, ry);
+      ry += 52;  // breathing room before first pillar
 
       const pillarData = [
-        { name:'Visual Quality',     score: r.visual.score },
-        { name:'Copywriting',        score: r.copy.score   },
-        { name:'SEO',                score: r.seo.score    },
-        { name:'Technical',          score: r.tech.score   },
+        { name:'Visual Quality', score: r.visual.score },
+        { name:'Copywriting',    score: r.copy.score   },
+        { name:'SEO',            score: r.seo.score    },
+        { name:'Technical',      score: r.tech.score   },
       ];
 
       pillarData.forEach(p => {
-        // Name
+        // Pillar name
         ctx.fillStyle = '#F0EFEB';
-        ctx.font      = '500 15px "Inter", sans-serif';
-        ctx.fillText(p.name, rx, ry);
+        ctx.font      = '500 18px "Inter", sans-serif';
+        ctx.fillText(p.name, RX, ry);
 
-        // Score label (right-aligned)
+        // Score label — right-aligned, slightly larger
         const sLabel = `${p.score}/25`;
-        ctx.fillStyle = '#8A897F';
-        ctx.font      = '600 13px "Space Grotesk", sans-serif';
+        ctx.fillStyle = pillarHex(p.score);
+        ctx.font      = '600 17px "Space Grotesk", sans-serif';
         const sw = ctx.measureText(sLabel).width;
-        ctx.fillText(sLabel, rx + barW - sw, ry);
+        ctx.fillText(sLabel, RX + BAR_W - sw, ry);
 
-        ry += 16;
+        ry += 22;
 
         // Track
         ctx.fillStyle = '#1E1E21';
-        drawRoundRect(ctx, rx, ry, barW, 8, 4); ctx.fill();
+        drawRoundRect(ctx, RX, ry, BAR_W, BAR_H, 5); ctx.fill();
 
         // Fill
-        const fw = (p.score / 25) * barW;
+        const fw = (p.score / 25) * BAR_W;
         ctx.fillStyle = pillarHex(p.score);
-        drawRoundRect(ctx, rx, ry, Math.max(fw, 4), 8, 4); ctx.fill();
+        drawRoundRect(ctx, RX, ry, Math.max(fw, 6), BAR_H, 5); ctx.fill();
 
-        ry += 36;
+        ry += BAR_H + 46;  // generous gap between pillars
       });
 
-      // — FOOTER —
-      const fy = 600;
+      // ── FOOTER ───────────────────────────────────────────────────────────────
+      const FY = H - 30;
       ctx.strokeStyle = '#2A2A2D'; ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.moveTo(0, fy - 28); ctx.lineTo(1200, fy - 28); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(60, FY - 22); ctx.lineTo(W - 60, FY - 22); ctx.stroke();
 
-      ctx.fillStyle = '#8A897F';
-      ctx.font      = '400 13px "Inter", sans-serif';
-      ctx.fillText('shelvd-score.vercel.app', 60, fy);
-
+      // URL — peach
       ctx.fillStyle = '#F2C388';
-      ctx.font      = '600 13px "Inter", sans-serif';
+      ctx.font      = '400 14px "Inter", sans-serif';
+      ctx.fillText('shelvd-score.vercel.app', 60, FY);
+
+      // CTA — peach bold
+      ctx.fillStyle = '#F2C388';
+      ctx.font      = '600 14px "Inter", sans-serif';
       const ctaTxt  = 'Get your score →';
       const ctaW    = ctx.measureText(ctaTxt).width;
-      ctx.fillText(ctaTxt, 1200 - 60 - ctaW, fy);
+      ctx.fillText(ctaTxt, W - 60 - ctaW, FY);
 
       // Download
       canvas.toBlob(blob => {
