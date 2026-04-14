@@ -163,19 +163,39 @@
     .benchmark-verdict strong { font-weight: 600; }
     .benchmark-context { font-size: 13px; color: var(--muted); margin-top: 8px; border-top: 1px solid var(--border); padding-top: 12px; font-style: italic; }
 
-    /* ── Email gate ──────────────────────────────────────────────────────── */
-    .email-gate-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 28px 32px; text-align: center; }
-    @media (max-width: 520px) { .email-gate-card { padding: 22px 18px; } }
-    .email-gate-heading { font-family: var(--font-head); font-weight: 600; font-size: 18px; color: var(--text); margin-bottom: 6px; }
-    .email-gate-sub { font-size: 14px; color: var(--muted); margin-bottom: 22px; line-height: 1.5; }
-    .email-gate-row { display: flex; gap: 10px; max-width: 420px; margin: 0 auto 14px; }
-    .email-gate-row input[type="email"] { flex: 1; background: var(--surface-2); border: 1.5px solid var(--border); border-radius: var(--r-sm); color: var(--text); font-family: var(--font-ui); font-size: 14px; padding: 11px 14px; transition: border-color var(--ease); }
-    .email-gate-row input[type="email"]:focus { outline: none; border-color: var(--brand); }
-    .email-gate-row input[type="email"]::placeholder { color: var(--muted); }
-    .email-skip { background: none; border: none; color: var(--muted); font-family: var(--font-ui); font-size: 13px; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; transition: color var(--ease); }
-    .email-skip:hover { color: var(--text); }
+    /* ── Payment gate ────────────────────────────────────────────────────── */
+    .pay-gate-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 32px 36px; }
+    @media (max-width: 520px) { .pay-gate-card { padding: 22px 18px; } }
+    .pay-gate-heading { font-family: var(--font-head); font-weight: 600; font-size: 20px; color: var(--text); margin-bottom: 10px; }
+    .pay-gate-sub { font-size: 14px; color: var(--muted); margin-bottom: 22px; line-height: 1.55; max-width: 480px; }
+    .pay-gate-features { list-style: none; margin-bottom: 22px; display: flex; flex-direction: column; gap: 9px; }
+    .pay-gate-features li { font-size: 14px; color: var(--text); }
+    .pay-gate-price { font-family: var(--font-head); font-weight: 600; font-size: 15px; color: var(--text); margin-bottom: 18px; }
+    .btn-pay { display: inline-block; background: var(--brand); color: #0C0C0E; font-family: var(--font-ui); font-size: 15px; font-weight: 600; padding: 13px 28px; border-radius: var(--r-sm); text-decoration: none; transition: background var(--ease); margin-bottom: 10px; }
+    .btn-pay:hover { background: #f7d5a8; }
+    .pay-gate-stripe { font-size: 12px; color: var(--muted); margin-bottom: 18px; }
+    .skip-pay-link { background: none; border: none; color: var(--muted); font-family: var(--font-ui); font-size: 13px; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; display: block; padding: 0; transition: color var(--ease); }
+    .skip-pay-link:hover { color: var(--text); }
+
+    /* ── Email capture (lead gen below gate) ─────────────────────────────── */
+    .email-capture-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 22px 28px; }
+    @media (max-width: 520px) { .email-capture-card { padding: 18px; } }
+    .email-capture-heading { font-size: 14px; font-weight: 500; color: var(--muted); margin-bottom: 14px; }
+    .email-capture-row { display: flex; gap: 10px; max-width: 440px; }
+    .email-capture-row input[type="email"] { flex: 1; background: var(--surface-2); border: 1.5px solid var(--border); border-radius: var(--r-sm); color: var(--text); font-family: var(--font-ui); font-size: 14px; padding: 11px 14px; transition: border-color var(--ease); }
+    .email-capture-row input[type="email"]:focus { outline: none; border-color: var(--brand); }
+    .email-capture-row input[type="email"]::placeholder { color: var(--muted); }
+    .email-capture-confirm { font-size: 13px; color: var(--green); margin-top: 10px; display: none; }
+    .email-capture-confirm.visible { display: block; }
     .email-error { font-size: 12px; color: var(--red); margin-top: 6px; display: none; }
     .email-error.visible { display: block; }
+
+    /* ── Free-only notice (skip path) ────────────────────────────────────── */
+    .free-notice { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .free-notice-text { font-size: 13px; color: var(--muted); }
+    .free-notice-link { font-size: 13px; font-weight: 600; color: var(--brand); text-decoration: none; white-space: nowrap; }
+    .free-notice-link:hover { text-decoration: underline; }
+    .free-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
 
     /* ── Pillars ─────────────────────────────────────────────────────────── */
     .pillars-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 28px 32px; }
@@ -231,6 +251,8 @@
     .btn-outline:hover { border-color: var(--muted); }
     .btn-download { background: var(--surface-2); color: var(--text); border: 1.5px solid var(--border); font-size: 14px; }
     .btn-download:hover { border-color: var(--muted); }
+    .btn-pdf { background: var(--brand); color: #0C0C0E; font-size: 14px; }
+    .btn-pdf:hover { background: #f7d5a8; }
     .copy-feedback { font-size: 12px; color: var(--green); display: none; align-items: center; gap: 4px; }
     .copy-feedback.visible { display: flex; }
 
@@ -244,6 +266,7 @@
     .hidden { display: none !important; }
     #fullResults { display: none; }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
 </head>
 <body>
 
@@ -547,60 +570,92 @@
       </div>
 
       <!-- 3. Email gate -->
-      <div class="reveal-section" id="sectionEmailGate">
-        <div class="email-gate-card" id="emailGateCard">
-          <div class="email-gate-heading">Want the full breakdown?</div>
-          <div class="email-gate-sub" id="emailGateSub">Get your pillar-by-pillar analysis and specific recommendations for your listing.</div>
-          <div class="email-gate-row">
-            <input type="email" id="emailInput" placeholder="you@yourbrand.com" />
-            <button class="btn btn-primary" onclick="submitEmail()">Send my full report</button>
-          </div>
-          <div class="email-error" id="emailError">Please enter a valid email address.</div>
-          <button class="email-skip" onclick="skipEmail()">Skip — show me now</button>
+      <!-- 3. Wins — FREE tier, shown before gate -->
+      <div class="reveal-section" id="sectionWins">
+        <div class="wins-card">
+          <div class="wins-heading">Your biggest wins</div>
+          <div class="wins-list" id="winsList"></div>
         </div>
       </div>
 
-      <!-- 4–7. Full results (revealed after gate) -->
+      <!-- 4. Payment gate -->
+      <div class="reveal-section" id="sectionPayGate">
+        <div class="pay-gate-card">
+          <div class="pay-gate-heading">Unlock your full Shelvd Report</div>
+          <div class="pay-gate-sub">Get your complete pillar breakdown, specific recommendations ranked by impact, and a downloadable PDF report you can share with your team or agency.</div>
+          <ul class="pay-gate-features">
+            <li>✓ Pillar-by-pillar score breakdown</li>
+            <li>✓ Personalized recommendations for your category</li>
+            <li>✓ Downloadable PDF report</li>
+            <li>✓ Shareable score card image</li>
+            <li>✓ Shelf-worthy badge (if you qualify)</li>
+          </ul>
+          <div class="pay-gate-price">$4.99 — one listing, full report</div>
+          <a class="btn btn-pay" href="https://buy.stripe.com/PLACEHOLDER" onclick="prepareStripeRedirect()" target="_blank" rel="noopener">Get my full report →</a>
+          <div class="pay-gate-stripe">Powered by Stripe. Secure payment.</div>
+          <button class="skip-pay-link" onclick="unlockSkip()">Skip — just show me the basics</button>
+        </div>
+      </div>
+
+      <!-- 5. Email capture — lead gen for non-buyers -->
+      <div class="reveal-section" id="sectionEmailCapture">
+        <div class="email-capture-card">
+          <div class="email-capture-heading">Not ready to buy? Get a free summary by email.</div>
+          <div class="email-capture-row">
+            <input type="email" id="emailInput" placeholder="you@yourbrand.com" />
+            <button class="btn btn-primary" onclick="submitLeadEmail()">Send summary</button>
+          </div>
+          <div class="email-error" id="emailError">Please enter a valid email address.</div>
+          <div class="email-capture-confirm" id="emailCaptureConfirm">✓ Thanks! We'll send your summary shortly.</div>
+        </div>
+      </div>
+
+      <!-- 6. Pillar bars — shared between paid and free paths -->
+      <div class="reveal-section" id="sectionPillars">
+        <div class="pillars-card">
+          <div class="pillars-heading">Score breakdown</div>
+          <div class="pillar-row" id="pillarRow0">
+            <div class="pillar-meta"><span class="pillar-name">Visual Quality</span><span class="pillar-score-label" id="pillar-visual-score">—/25</span></div>
+            <div class="pillar-bar-track"><div class="pillar-bar-fill" id="pillar-visual-bar"></div></div>
+          </div>
+          <div class="pillar-row" id="pillarRow1">
+            <div class="pillar-meta"><span class="pillar-name">Copywriting</span><span class="pillar-score-label" id="pillar-copy-score">—/25</span></div>
+            <div class="pillar-bar-track"><div class="pillar-bar-fill" id="pillar-copy-bar"></div></div>
+          </div>
+          <div class="pillar-row" id="pillarRow2">
+            <div class="pillar-meta"><span class="pillar-name">SEO</span><span class="pillar-score-label" id="pillar-seo-score">—/25</span></div>
+            <div class="pillar-bar-track"><div class="pillar-bar-fill" id="pillar-seo-bar"></div></div>
+          </div>
+          <div class="pillar-row" id="pillarRow3">
+            <div class="pillar-meta"><span class="pillar-name">Technical Compliance</span><span class="pillar-score-label" id="pillar-tech-score">—/25</span></div>
+            <div class="pillar-bar-track"><div class="pillar-bar-fill" id="pillar-tech-bar"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. Free-only notice (shown after Skip, hidden in paid path) -->
+      <div id="freeOnlyNotice" style="display:none">
+        <div class="reveal-section" id="sectionFreeNotice">
+          <div class="free-notice">
+            <span class="free-notice-text">Recommendations and PDF report are in the full report.</span>
+            <a class="free-notice-link" href="https://buy.stripe.com/PLACEHOLDER" onclick="prepareStripeRedirect()" target="_blank" rel="noopener">Unlock for $4.99 →</a>
+          </div>
+          <div class="free-actions">
+            <button class="btn btn-outline" onclick="resetForm()">Score another listing</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8. Full paid results -->
       <div id="fullResults">
 
-        <!-- 4. Pillar bars -->
-        <div class="reveal-section" id="sectionPillars">
-          <div class="pillars-card">
-            <div class="pillars-heading">Score breakdown</div>
-            <div class="pillar-row" id="pillarRow0">
-              <div class="pillar-meta"><span class="pillar-name">Visual Quality</span><span class="pillar-score-label" id="pillar-visual-score">—/25</span></div>
-              <div class="pillar-bar-track"><div class="pillar-bar-fill" id="pillar-visual-bar"></div></div>
-            </div>
-            <div class="pillar-row" id="pillarRow1">
-              <div class="pillar-meta"><span class="pillar-name">Copywriting</span><span class="pillar-score-label" id="pillar-copy-score">—/25</span></div>
-              <div class="pillar-bar-track"><div class="pillar-bar-fill" id="pillar-copy-bar"></div></div>
-            </div>
-            <div class="pillar-row" id="pillarRow2">
-              <div class="pillar-meta"><span class="pillar-name">SEO</span><span class="pillar-score-label" id="pillar-seo-score">—/25</span></div>
-              <div class="pillar-bar-track"><div class="pillar-bar-fill" id="pillar-seo-bar"></div></div>
-            </div>
-            <div class="pillar-row" id="pillarRow3">
-              <div class="pillar-meta"><span class="pillar-name">Technical Compliance</span><span class="pillar-score-label" id="pillar-tech-score">—/25</span></div>
-              <div class="pillar-bar-track"><div class="pillar-bar-fill" id="pillar-tech-bar"></div></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 5. Wins -->
-        <div class="reveal-section" id="sectionWins">
-          <div class="wins-card">
-            <div class="wins-heading">Your biggest wins</div>
-            <div class="wins-list" id="winsList"></div>
-          </div>
-        </div>
-
-        <!-- 6. Recommendations -->
+        <!-- Recommendations -->
         <div class="reveal-section" id="sectionRecs">
           <div class="recs-heading">Your Recommendations</div>
           <div id="recsList"></div>
         </div>
 
-        <!-- 7. Shelf-worthy badge (shown only if score >= 80) -->
+        <!-- Shelf-worthy badge (shown only if score >= 80) -->
         <div class="reveal-section hidden" id="sectionShelfBadge">
           <div class="shelf-badge-card">
             <div class="shelf-badge-heading">🏅 You earned the Shelf-worthy badge</div>
@@ -621,11 +676,12 @@
           </div>
         </div>
 
-        <!-- 8. Actions -->
+        <!-- Actions -->
         <div class="reveal-section" id="sectionActions">
           <div class="results-actions">
             <button class="btn btn-share" onclick="shareScore()">Share your score</button>
             <button class="btn btn-download" onclick="downloadScoreCard()">Download score card</button>
+            <button class="btn btn-pdf" onclick="downloadPDF()">Download PDF report</button>
             <span class="copy-feedback" id="copyFeedback">✓ Copied to clipboard</span>
             <button class="btn btn-outline" onclick="resetForm()">Score another listing</button>
           </div>
@@ -649,6 +705,7 @@
     const answers  = {};
     let lastScore   = null;
     let lastResults = null;
+    let paidAccess  = false;   // set true when returning from Stripe with ?paid=1
 
     /* ════════════════════════════════════════════════════════════════════════
        CATEGORY BENCHMARKS
@@ -1054,10 +1111,20 @@
       rw.classList.add('visible');
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
-      // ── Dramatic reveal sequence ───────────────────────────────────────────
-      reveal('sectionBadge',     80);   // badge pops in
-      reveal('sectionBenchmark', 650);  // benchmark slides up
-      reveal('sectionEmailGate', 1050); // gate fades in
+      // ── Reveal sequence ────────────────────────────────────────────────────
+      if (paidAccess) {
+        // Returning from Stripe — skip gate, unlock everything
+        reveal('sectionBadge',     80);
+        reveal('sectionBenchmark', 650);
+        reveal('sectionWins',      1200);
+        setTimeout(revealFullResults, 1800);
+      } else {
+        reveal('sectionBadge',          80);
+        reveal('sectionBenchmark',      650);
+        reveal('sectionWins',           1200);
+        reveal('sectionPayGate',        1800);
+        reveal('sectionEmailCapture',   2200);
+      }
     }
 
     /* ── Reveal helper ──────────────────────────────────────────────────── */
@@ -1069,9 +1136,36 @@
     }
 
     /* ════════════════════════════════════════════════════════════════════════
-       EMAIL GATE
+       PAYMENT GATE + EMAIL CAPTURE
     ════════════════════════════════════════════════════════════════════════ */
-    function submitEmail() {
+
+    // Save answers before Stripe redirect so we can restore on return
+    function prepareStripeRedirect() {
+      try { sessionStorage.setItem('shelvd_paid_answers', JSON.stringify(answers)); } catch(e) {}
+    }
+
+    // Skip → show pillar bars only, free-only notice, no recs/PDF/badge
+    function unlockSkip() {
+      ['sectionPayGate','sectionEmailCapture'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.style.transition = 'opacity 280ms ease';
+        el.style.opacity = '0';
+        setTimeout(() => { el.style.display = 'none'; }, 290);
+      });
+      setTimeout(() => {
+        revealPillars();
+        setTimeout(() => {
+          const fn = document.getElementById('freeOnlyNotice');
+          if (fn) fn.style.display = 'block';
+          const sn = document.getElementById('sectionFreeNotice');
+          if (sn) setTimeout(() => sn.classList.add('shown'), 40);
+        }, 1100);
+      }, 320);
+    }
+
+    // Email lead capture (does NOT unlock paid content)
+    function submitLeadEmail() {
       const emailVal = document.getElementById('emailInput').value.trim();
       const errEl    = document.getElementById('emailError');
       if (!emailVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
@@ -1079,46 +1173,55 @@
         return;
       }
       errEl.classList.remove('visible');
-      try { localStorage.setItem('shelvd_email', emailVal); } catch(e){}
-      document.getElementById('emailGateCard').style.display = 'none';
-      revealFullResults();
+      try { localStorage.setItem('shelvd_email', emailVal); } catch(e) {}
+      document.getElementById('emailInput').disabled = true;
+      const sendBtn = document.querySelector('#sectionEmailCapture .btn');
+      if (sendBtn) sendBtn.disabled = true;
+      document.getElementById('emailCaptureConfirm').classList.add('visible');
     }
 
-    function skipEmail() {
-      document.getElementById('emailGateCard').style.display = 'none';
-      revealFullResults();
-    }
-
-    function revealFullResults() {
-      const fr = document.getElementById('fullResults');
-      fr.style.display = 'block';
-
-      // Reveal pillars section
+    // Animate pillar rows in (shared between paid + free paths)
+    function revealPillars() {
       reveal('sectionPillars', 80);
-
-      // Stagger individual pillar rows
+      const barIds  = ['pillar-visual-bar','pillar-copy-bar','pillar-seo-bar','pillar-tech-bar'];
+      const scores  = [lastResults.visual.score, lastResults.copy.score, lastResults.seo.score, lastResults.tech.score];
       ['pillarRow0','pillarRow1','pillarRow2','pillarRow3'].forEach((id, i) => {
         setTimeout(() => {
           const row = document.getElementById(id);
           if (row) row.classList.add('shown');
-          // Animate bar fill after row appears
-          const barIds = ['pillar-visual-bar','pillar-copy-bar','pillar-seo-bar','pillar-tech-bar'];
-          const scores = [
-            lastResults.visual.score,
-            lastResults.copy.score,
-            lastResults.seo.score,
-            lastResults.tech.score,
-          ];
           const bar = document.getElementById(barIds[i]);
           if (bar) bar.style.width = `${(scores[i] / 25) * 100}%`;
         }, 180 + i * 200);
       });
-
-      reveal('sectionWins',      880);
-      reveal('sectionRecs',      1200);
-      reveal('sectionShelfBadge',1500);
-      reveal('sectionActions',   1700);
     }
+
+    // Unlock full paid results (called when paidAccess=true or from Stripe redirect)
+    function revealFullResults() {
+      // Collapse gate sections
+      ['sectionPayGate','sectionEmailCapture'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) { el.style.display = 'none'; }
+      });
+      const fr = document.getElementById('fullResults');
+      fr.style.display = 'block';
+      revealPillars();
+      reveal('sectionRecs',       880);
+      reveal('sectionShelfBadge', 1200);
+      reveal('sectionActions',    1450);
+    }
+
+    /* ── Stripe return — restore session after ?paid=1 redirect ─────────── */
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('paid') !== '1') return;
+      try {
+        const saved = JSON.parse(sessionStorage.getItem('shelvd_paid_answers') || 'null');
+        if (!saved) return;
+        Object.assign(answers, saved);
+        paidAccess = true;
+        submitForm();
+      } catch(e) {}
+    });
 
     /* ════════════════════════════════════════════════════════════════════════
        SHARE
@@ -1367,6 +1470,290 @@
     }
 
     /* ════════════════════════════════════════════════════════════════════════
+       PDF REPORT — 4-page jsPDF download
+    ════════════════════════════════════════════════════════════════════════ */
+    function downloadPDF() {
+      const r = lastResults;
+      if (!r) return;
+
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ unit:'pt', format:'a4' });
+      const W = doc.internal.pageSize.getWidth();   // 595.28
+      const H = doc.internal.pageSize.getHeight();  // 841.89
+
+      // Strip non-ASCII (emojis etc) for helvetica compatibility
+      function pl(str) { return String(str).replace(/[^\x20-\x7E]/g, '').trim(); }
+
+      // Color helpers (r,g,b 0-255)
+      const C = {
+        bg:      [12,  12,  14 ],
+        surface: [22,  22,  24 ],
+        border:  [42,  42,  45 ],
+        text:    [240, 239, 235],
+        muted:   [138, 137, 127],
+        peach:   [242, 195, 136],
+        green:   [74,  222, 128],
+        amber:   [251, 191, 36 ],
+        red:     [248, 113, 113],
+      };
+      function scoreColor(v, max) {
+        const p = (v/max)*100;
+        return p>=80 ? C.green : p>=50 ? C.amber : C.red;
+      }
+      function pillarColor(v) { return v>=20 ? C.green : v>=13 ? C.amber : C.red; }
+
+      function pageBg() {
+        doc.setFillColor(...C.bg);
+        doc.rect(0, 0, W, H, 'F');
+        doc.setDrawColor(60, 48, 34);   // peach-tint border at ~30%
+        doc.setLineWidth(1);
+        doc.rect(4, 4, W-8, H-8);
+      }
+
+      function pageFooter() {
+        doc.setTextColor(...C.muted);
+        doc.setFontSize(9);
+        doc.setFont('helvetica','normal');
+        doc.text('shelvd-score.vercel.app', W/2, H-24, { align:'center' });
+      }
+
+      function sectionRule(y) {
+        doc.setDrawColor(...C.border);
+        doc.setLineWidth(0.5);
+        doc.line(48, y, W-48, y);
+      }
+
+      // ── PAGE 1: COVER ────────────────────────────────────────────────────
+      pageBg();
+
+      // Wordmark
+      doc.setTextColor(...C.peach);
+      doc.setFontSize(30);
+      doc.setFont('helvetica','bold');
+      doc.text('SHELVD', W/2, 90, { align:'center' });
+
+      // Tagline
+      doc.setTextColor(...C.muted);
+      doc.setFontSize(11);
+      doc.setFont('helvetica','normal');
+      doc.text('Amazon Listing Quality Report', W/2, 112, { align:'center' });
+
+      // Score circle (large)
+      const sCol = scoreColor(r.total, 100);
+      doc.setTextColor(...sCol);
+      doc.setFontSize(110);
+      doc.setFont('helvetica','bold');
+      doc.text(String(r.total), W/2, 310, { align:'center' });
+
+      doc.setTextColor(...C.muted);
+      doc.setFontSize(16);
+      doc.setFont('helvetica','normal');
+      doc.text('/ 100', W/2, 340, { align:'center' });
+
+      // Tier
+      doc.setTextColor(...C.text);
+      doc.setFontSize(30);
+      doc.setFont('helvetica','bold');
+      doc.text(pl(r.tier), W/2, 402, { align:'center' });
+
+      // Category
+      doc.setTextColor(...C.muted);
+      doc.setFontSize(13);
+      doc.setFont('helvetica','normal');
+      doc.text(r.cat.label, W/2, 428, { align:'center' });
+
+      // Benchmark line
+      const diff    = r.total - r.cat.avg;
+      const benchC  = diff>=0 ? C.green : Math.abs(diff)>=15 ? C.red : C.amber;
+      doc.setTextColor(...benchC);
+      doc.setFontSize(12);
+      doc.text(
+        diff>=0
+          ? `${Math.abs(diff)} pts above the ${r.cat.label} average (${r.cat.avg}/100)`
+          : `${Math.abs(diff)} pts below the ${r.cat.label} average (${r.cat.avg}/100)`,
+        W/2, 456, { align:'center' }
+      );
+
+      // Date
+      doc.setTextColor(...C.muted);
+      doc.setFontSize(11);
+      doc.text(
+        `Generated ${new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})}`,
+        W/2, 500, { align:'center' }
+      );
+
+      // Tier sub copy
+      doc.setFontSize(11);
+      const subLines = doc.splitTextToSize(pl(r.tierSub), 380);
+      doc.text(subLines, W/2, 530, { align:'center' });
+
+      pageFooter();
+
+      // ── PAGE 2: PILLAR BREAKDOWN ─────────────────────────────────────────
+      doc.addPage();
+      pageBg();
+
+      doc.setTextColor(...C.peach);
+      doc.setFontSize(22);
+      doc.setFont('helvetica','bold');
+      doc.text('Score Breakdown', 48, 70);
+      sectionRule(82);
+
+      const pillarInfo = [
+        { name:'Visual Quality', score:r.visual.score, desc:'Evaluates image count, lifestyle photography, infographic images, A+ content, and product video. Visual quality is the first filter buyers use.' },
+        { name:'Copywriting',    score:r.copy.score,   desc:'Measures title length, bullet point quality and count, Brand Story copy, and product description. Copy is what converts browsers into buyers.' },
+        { name:'SEO',            score:r.seo.score,    desc:'Checks brand and keyword placement in the title, keyword density in bullets, backend search terms, and category attribute completeness.' },
+        { name:'Technical',      score:r.tech.score,   desc:'Reviews white background compliance, image resolution (1000px+ for zoom), A+ content implementation, Brand Story module, variations, and review count.' },
+      ];
+
+      let py = 108;
+      pillarInfo.forEach(p => {
+        const pc = pillarColor(p.score);
+
+        // Name + score
+        doc.setTextColor(...pc);
+        doc.setFontSize(15);
+        doc.setFont('helvetica','bold');
+        doc.text(p.name, 48, py);
+        doc.text(`${p.score}/25`, W-48, py, { align:'right' });
+
+        // Text progress bar
+        const filled = Math.round((p.score/25)*24);
+        const bar = '\u2588'.repeat(filled) + '\u2591'.repeat(24-filled);
+        doc.setTextColor(...C.muted);
+        doc.setFontSize(9);
+        doc.setFont('helvetica','normal');
+        doc.text(bar, 48, py+14);
+
+        // Description
+        doc.setTextColor(170,168,160);
+        doc.setFontSize(11);
+        const dLines = doc.splitTextToSize(p.desc, W-96);
+        doc.text(dLines, 48, py+28);
+
+        py += 28 + dLines.length*13 + 22;
+        if (py < H-80) sectionRule(py-8);
+      });
+
+      pageFooter();
+
+      // ── PAGE 3: RECOMMENDATIONS ──────────────────────────────────────────
+      doc.addPage();
+      pageBg();
+
+      doc.setTextColor(...C.peach);
+      doc.setFontSize(22);
+      doc.setFont('helvetica','bold');
+      doc.text('Your Recommendations', 48, 70);
+      sectionRule(82);
+
+      const recs = buildRecs(answers);
+      let ry = 102;
+
+      if (recs.length === 0) {
+        doc.setTextColor(...C.muted);
+        doc.setFontSize(13);
+        doc.setFont('helvetica','italic');
+        doc.text('Nothing obvious to fix -- your listing is in great shape.', 48, ry);
+      } else {
+        recs.forEach(rec => {
+          // New page if needed
+          if (ry > H-130) {
+            doc.addPage(); pageBg();
+            doc.setTextColor(...C.peach);
+            doc.setFontSize(16);
+            doc.setFont('helvetica','bold');
+            doc.text('Recommendations (cont.)', 48, 52);
+            sectionRule(64);
+            ry = 84;
+          }
+
+          // Issue heading
+          doc.setTextColor(...C.text);
+          doc.setFontSize(13);
+          doc.setFont('helvetica','bold');
+          doc.text(pl(rec.issue), 48, ry);
+          ry += 15;
+
+          // Action
+          doc.setTextColor(185,183,175);
+          doc.setFontSize(11);
+          doc.setFont('helvetica','normal');
+          const aLines = doc.splitTextToSize(pl(rec.action), W-108);
+          doc.text(aLines, 60, ry);
+          ry += aLines.length*13+6;
+
+          // Why
+          doc.setTextColor(...C.muted);
+          doc.setFontSize(10);
+          doc.setFont('helvetica','italic');
+          const wLines = doc.splitTextToSize(`Why: ${pl(rec.why)}`, W-108);
+          doc.text(wLines, 60, ry);
+          ry += wLines.length*12+16;
+        });
+      }
+
+      pageFooter();
+
+      // ── PAGE 4: WINS + NEXT STEPS ────────────────────────────────────────
+      doc.addPage();
+      pageBg();
+
+      doc.setTextColor(...C.peach);
+      doc.setFontSize(22);
+      doc.setFont('helvetica','bold');
+      doc.text('Your Biggest Wins', 48, 70);
+      sectionRule(82);
+
+      const wins = buildWins(answers);
+      let wy = 102;
+      if (wins.length === 0) {
+        doc.setTextColor(...C.muted);
+        doc.setFontSize(12);
+        doc.setFont('helvetica','italic');
+        doc.text('Keep building -- wins are coming.', 48, wy);
+        wy += 28;
+      } else {
+        wins.forEach(w => {
+          doc.setTextColor(...C.text);
+          doc.setFontSize(12);
+          doc.setFont('helvetica','normal');
+          const wl = doc.splitTextToSize(pl(w), W-96);
+          doc.text(wl, 48, wy);
+          wy += wl.length*14+8;
+        });
+      }
+
+      wy += 20;
+      doc.setTextColor(...C.peach);
+      doc.setFontSize(18);
+      doc.setFont('helvetica','bold');
+      doc.text('Next Steps', 48, wy);
+      wy += 12;
+      sectionRule(wy);
+      wy += 18;
+
+      const steps = [
+        'Fix the quick wins first -- items where you scored 0.',
+        'Focus on Visual Quality and Copywriting -- these have the highest conversion impact.',
+        'Re-score your listing after making changes at shelvd-score.vercel.app',
+        'Share your score card on social media to show buyers you take your listing seriously.',
+      ];
+      steps.forEach((s, i) => {
+        doc.setTextColor(...C.text);
+        doc.setFontSize(12);
+        doc.setFont('helvetica','normal');
+        const sl = doc.splitTextToSize(`${i+1}. ${s}`, W-108);
+        doc.text(sl, 48, wy);
+        wy += sl.length*14+10;
+      });
+
+      pageFooter();
+
+      doc.save(`shelvd-report-${r.total}.pdf`);
+    }
+
+    /* ════════════════════════════════════════════════════════════════════════
        EMBED CODE COPY
     ════════════════════════════════════════════════════════════════════════ */
     function copyEmbedCode() {
@@ -1413,10 +1800,25 @@
       document.querySelectorAll('.step-error').forEach(e => e.classList.remove('visible'));
 
       // Reset result sections
+      paidAccess = false;
       document.querySelectorAll('.reveal-section').forEach(s => s.classList.remove('shown'));
-      document.getElementById('fullResults').style.display = 'none';
-      document.getElementById('emailGateCard').style.display = '';
-      document.getElementById('emailInput').value = '';
+      document.querySelectorAll('.pillar-row').forEach(r => r.classList.remove('shown'));
+      ['pillar-visual-bar','pillar-copy-bar','pillar-seo-bar','pillar-tech-bar'].forEach(id => {
+        const b = document.getElementById(id); if (b) b.style.width = '0%';
+      });
+      document.getElementById('fullResults').style.display  = 'none';
+      document.getElementById('freeOnlyNotice').style.display = 'none';
+      // Restore pay gate + email capture
+      ['sectionPayGate','sectionEmailCapture'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) { el.style.display = ''; el.style.opacity = ''; el.style.transition = ''; }
+      });
+      // Email capture reset
+      const emailInputEl = document.getElementById('emailInput');
+      if (emailInputEl) { emailInputEl.value = ''; emailInputEl.disabled = false; }
+      const sendBtn = document.querySelector('#sectionEmailCapture .btn');
+      if (sendBtn) sendBtn.disabled = false;
+      document.getElementById('emailCaptureConfirm').classList.remove('visible');
       document.getElementById('emailError').classList.remove('visible');
       document.getElementById('sectionShelfBadge').classList.add('hidden');
       document.getElementById('copyFeedback').classList.remove('visible');
